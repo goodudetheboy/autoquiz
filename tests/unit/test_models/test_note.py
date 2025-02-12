@@ -6,7 +6,6 @@ class TestNoteModel(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """Runs once before all tests."""
-        pass 
 
         with open("tests/data/sample_study_note.txt", "r", encoding="utf-8") as f: 
             cls.sample_study_note_plaintext = f.read()
