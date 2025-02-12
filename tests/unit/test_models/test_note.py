@@ -1,5 +1,5 @@
 import unittest
-from core.models import Note
+from core.models.note import Note
 
 class TestNoteModel(unittest.TestCase):
     
@@ -8,7 +8,7 @@ class TestNoteModel(unittest.TestCase):
         """Runs once before all tests."""
         print("\nSetting up TestNoteModel...")
 
-        with open("tests/data/sample_study_note.txt") as f: 
+        with open("tests/data/sample_study_note.txt", "r", encoding="utf-8") as f: 
             cls.sample_study_note_plaintext = f.read()
 
     def setUp(self):
