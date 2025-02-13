@@ -13,7 +13,7 @@ class SectioningStrategy(ABC):
 class StaticSectioningStrategy(SectioningStrategy):
     """ Class for static sectioning strategy """
 
-    def process_by_num_of_section(self, note: Note, num_of_section: int) -> list[str]:
+    def process_by_num_of_section(self, note: Note, num_of_section: int) -> list[Section]:
         """
             For static sectioning, simply section by number of lines to achieve
             desired number of sections
