@@ -1,5 +1,5 @@
 import unittest
-from core.models.note import Section
+from core.models.section import Section
 
 class TestSectionModel(unittest.TestCase):
     
