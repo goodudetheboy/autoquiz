@@ -1,7 +1,7 @@
 # tests/test_openai_client.py
 import unittest
 from unittest.mock import patch
-from openai_client import OpenAIClient
+from core.models.openai_client import OpenAIClient
 
 class TestOpenAIClient(unittest.TestCase):
     def setUp(self):
