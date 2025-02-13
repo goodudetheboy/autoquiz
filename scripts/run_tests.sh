@@ -1,3 +1,3 @@
 #!/bin/bash
+python -m unittest discover -s tests -p "test_*.py"
 
-python scripts/run_tests.py
