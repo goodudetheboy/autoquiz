@@ -5,10 +5,9 @@ from core.models.openai_client import OpenAIClient
 
 class TestOpenAIClient(unittest.TestCase):
     def setUp(self):
-        self.api_key = "test_api_key"
-        self.client = OpenAIClient(self.api_key)
+        self.client = OpenAIClient(model="gpt-4o")
 
-    def test_generate_text(self, mock_create):
+    def test_generate_text(self):
         """ Sanity test for OpenAI API """
 
         prompt = "Say nothing but 'Hello, World!'"
