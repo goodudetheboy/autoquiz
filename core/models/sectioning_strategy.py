@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from core.models.note import Note
+from core.models.section import Section
 
 class SectioningStrategy(ABC):
     """ Abstract class for sectioning strategy """
@@ -26,8 +27,8 @@ class StaticSectioningStrategy(SectioningStrategy):
         for i in range(num_of_section):
             start = i * section_size
             end = (i + 1) * section_size if i < num_of_section - 1 else total_lines  # Last section gets remaining lines
-            section = "\n".join(lines[start:end])  # Concatenate lines into one string
-            sections.append(section)
+            section_text = "\n".join(lines[start:end])  # Concatenate lines into one string
+            sections.append(Section(section_text))
 
         return sections
 
