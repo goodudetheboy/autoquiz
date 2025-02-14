@@ -14,5 +14,12 @@ class TestOpenAIClient(unittest.TestCase):
         result = self.client.generate_text(prompt)
         self.assertEqual(result, 'Hello, World!')
 
+    def test_generate_json(self):
+        """ Sanity test for OpenAI API json mode"""
+        prompt = "Return a simple json {'message': 'Hello, World!'}"
+        result = self.client.generate_json(prompt)
+        self.assertIn("message", result)
+        self.assertEqual(result["message"], "Hello, World!")
+
 if __name__ == '__main__':
     unittest.main()
