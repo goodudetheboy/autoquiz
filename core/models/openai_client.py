@@ -28,3 +28,19 @@ class OpenAIClient:
             model=self.model,
         )
         return chat_completion.choices[0].message.content
+
+    def generate_json(self, prompt: str) -> str:
+        chat_completion = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt,
+                }
+                ],
+            model=self.model,
+            response_format= {
+                "type": "json_object"
+            }
+        )
+        return chat_completion.choices[0].message.content
+
