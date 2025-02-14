@@ -1,4 +1,5 @@
 # tests/test_openai_client.py
+import json
 import unittest
 from unittest.mock import patch
 from core.models.openai_client import OpenAIClient
@@ -18,6 +19,9 @@ class TestOpenAIClient(unittest.TestCase):
         """ Sanity test for OpenAI API json mode"""
         prompt = "Return a simple json {'message': 'Hello, World!'}"
         result = self.client.generate_json(prompt)
+        result = json.loads(result)
+
+        # Test json
         self.assertIn("message", result)
         self.assertEqual(result["message"], "Hello, World!")
 
