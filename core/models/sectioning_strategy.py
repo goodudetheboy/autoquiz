@@ -6,20 +6,25 @@ class SectioningStrategy(ABC):
     """ Abstract class for sectioning strategy """
 
     @abstractmethod
-    def process_by_num_of_section(self, note: Note, num_of_section: int):
+    def process(self, note: Note) -> list[Section]:
         """ Section note based on the desired number of section """
         pass
 
 class StaticSectioningStrategy(SectioningStrategy):
     """ Class for static sectioning strategy """
 
-    def process_by_num_of_section(self, note: Note, num_of_section: int) -> list[Section]:
+    def __init__(self, num_of_section):
+        self.num_of_section = num_of_section
+
+    def process(self, note: Note) -> list[Section]:
         """
             For static sectioning, simply section by number of lines to achieve
             desired number of sections
         """
 
         lines = [line.strip() for line in note.content.split("\n")]  # Remove trailing newlines
+
+        num_of_section = self.num_of_section
 
         total_lines = len(lines)
         section_size = max(1, total_lines // num_of_section)  # Ensure at least 1 line per section
