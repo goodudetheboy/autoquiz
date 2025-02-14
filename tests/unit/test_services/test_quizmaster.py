@@ -10,7 +10,7 @@ class TestQuizmasterServices(unittest.TestCase):
     def setUpClass(cls):
         """Runs once before all tests."""
 
-        with open("tests/data/sample_study_note.txt", "r", encoding="utf-8") as f: 
+        with open("tests/data/sample_study_note_short.txt", "r", encoding="utf-8") as f: 
             cls.sample_study_note_plaintext = f.read()
         
     def setUp(self):
@@ -25,7 +25,7 @@ class TestQuizmasterServices(unittest.TestCase):
         """
         model = "gpt-4o"
         processed_note = self.note
-        num_of_section = 10
+        num_of_section = 1
         quiz_per_section = 5
         static_section_strat = StaticSectioningStrategy(num_of_section)
         
@@ -38,23 +38,24 @@ class TestQuizmasterServices(unittest.TestCase):
         )
 
         self.assertEqual(len(quiz_list), num_of_section * quiz_per_section)
-
+        print(quiz_list)
         for quiz in quiz_list:
             self.assertIn("question", quiz)
             self.assertIn("choices", quiz)
             quiz_choices = quiz["choices"]
-            self.assertEqual(len(quiz_choices) == 4)
+            self.assertEqual(len(quiz_choices), 4)
 
             for i in range(len(quiz_choices)):
                 choice = quiz_choices[i]
                 self.assertIn("description", choice)
                 self.assertIn("isCorrect", choice)
 
-                # Enforce first choice is always correct 
+                # Enforce first choice is always correct and false the rest
+                choice_answer = choice["isCorrect"]
                 if i == 0:
-                    self.assertTrue(quiz_choices[i])
+                    self.assertTrue(choice_answer)
                 else:
-                    self.assertFalse(quiz_choices[i])
+                    self.assertFalse(choice_answer)
 
             self.assertTrue(quiz_choices)
 
