@@ -29,9 +29,9 @@ class TestSectioningStrategyModel(unittest.TestCase):
         processed_note = self.note
         num_of_section = 10
 
-        static_section_strat = StaticSectioningStrategy()
+        static_section_strat = StaticSectioningStrategy(num_of_section=num_of_section)
 
-        actual_section_list = static_section_strat.process_by_num_of_section(processed_note, num_of_section)
+        actual_section_list = static_section_strat.process(processed_note)
         expected_section_list = self.expected_static_sectioning_by_num_of_section
 
         self.assertEqual(len(actual_section_list), len(expected_section_list))
