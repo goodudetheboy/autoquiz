@@ -16,7 +16,7 @@ class TestOpenAIClient(unittest.TestCase):
         """Runs before each test."""
         pass  
 
-    def test_single_multiple_choice_question(self):
+    def test_multiple_choice_question_process_from_json(self):
         """ Test process multiple choice question """
         sample_mcq_list = self.sample_multiple_choice_questions
         single_mcq = sample_mcq_list[0]
@@ -30,7 +30,7 @@ class TestOpenAIClient(unittest.TestCase):
         for i in range(len(processed_mcq.choices)):
             choice = processed_mcq.choices[i]
             self.assertEqual(choice.description, single_mcq["choices"][i]["description"])
-            self.assertEqual(choice.isCorrect, single_mcq["choices"][i], single_mcq["choices"][i]["isCorrect"])
+            self.assertEqual(choice.is_correct, single_mcq["choices"][i]["isCorrect"])
 
     # def test_multiple_choice_questions_list(self):
     #     """ Test process multiple choice question """
