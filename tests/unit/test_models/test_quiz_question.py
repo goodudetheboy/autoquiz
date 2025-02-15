@@ -21,7 +21,8 @@ class TestOpenAIClient(unittest.TestCase):
         sample_mcq_list = self.sample_multiple_choice_questions
         single_mcq = sample_mcq_list[0]
 
-        processed_mcq = MultipleChoiceQuestion(single_mcq)
+        processed_mcq = MultipleChoiceQuestion()
+        processed_mcq.process_from_json(single_mcq)
 
         self.assertEqual(processed_mcq.question, single_mcq["question"])
         self.assertEqual(len(processed_mcq.choices), len(single_mcq["choices"]))
