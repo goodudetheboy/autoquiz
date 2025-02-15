@@ -38,7 +38,7 @@ class TestQuizmasterServices(unittest.TestCase):
         )
 
         self.assertEqual(len(quiz_list), num_of_section * quiz_per_section)
-        print(quiz_list)
+        
         for quiz in quiz_list:
             self.assertIn("question", quiz)
             self.assertIn("choices", quiz)
