@@ -2,7 +2,7 @@ import json
 from jinja2 import Environment, FileSystemLoader
 
 from core.models.note import Note
-from core.models.openai_client import OpenAIClient
+from core.services.openai_client import OpenAIClient
 from core.models.sectioning_strategy import SectioningStrategy
 
 env = Environment(loader=FileSystemLoader("./core/services/templates"))
@@ -32,6 +32,7 @@ class Quizmaster():
             )
 
             generated_quiz_text = self.openai_client.generate_json(request_prompt)
+            print(generated_quiz_text)
             quiz_list = json.loads(generated_quiz_text)["results"]
             final_quiz_list.extend(quiz_list)
 
