@@ -3,6 +3,7 @@ import unittest
 from core.models.sectioning_strategy import StaticSectioningStrategy
 from core.services.quizmaster import Quizmaster
 from core.models.note import Note
+from core.models.quiz_question import MultipleChoiceQuestion
 
 class TestQuizmasterServices(unittest.TestCase):
     
@@ -31,7 +32,7 @@ class TestQuizmasterServices(unittest.TestCase):
         
         quizmaster = Quizmaster(model)
 
-        quiz_list = quizmaster.create_quiz_list(
+        quiz_list:list[MultipleChoiceQuestion] = quizmaster.create_quiz_list(
             note=processed_note,
             section_strategy=static_section_strat,
             quiz_per_section=quiz_per_section
@@ -40,18 +41,15 @@ class TestQuizmasterServices(unittest.TestCase):
         self.assertEqual(len(quiz_list), num_of_section * quiz_per_section)
         
         for quiz in quiz_list:
-            self.assertIn("question", quiz)
-            self.assertIn("choices", quiz)
-            quiz_choices = quiz["choices"]
+            self.assertIsInstance(quiz, MultipleChoiceQuestion)
+            quiz_choices = quiz.choices
             self.assertEqual(len(quiz_choices), 4)
 
             for i in range(len(quiz_choices)):
                 choice = quiz_choices[i]
-                self.assertIn("description", choice)
-                self.assertIn("isCorrect", choice)
 
                 # Enforce first choice is always correct and false the rest
-                choice_answer = choice["isCorrect"]
+                choice_answer = choice.is_correct
                 if i == 0:
                     self.assertTrue(choice_answer)
                 else:

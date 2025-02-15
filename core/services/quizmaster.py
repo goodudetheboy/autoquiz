@@ -4,6 +4,7 @@ from jinja2 import Environment, FileSystemLoader
 from core.models.note import Note
 from core.services.openai_client import OpenAIClient
 from core.models.sectioning_strategy import SectioningStrategy
+from core.models.quiz_question import MultipleChoiceQuestion
 
 env = Environment(loader=FileSystemLoader("./core/services/templates"))
 
@@ -18,11 +19,11 @@ class Quizmaster():
         note: Note,
         section_strategy: SectioningStrategy,
         quiz_per_section: int
-    ):
+    ) -> list[MultipleChoiceQuestion]:
         # Section note to proper sections with given strategy
         section_list = section_strategy.process(note)
 
-        final_quiz_list = []
+        final_quiz_list: list[MultipleChoiceQuestion] = []
         # Loop through section to generate quiz
         # TODO: Make this faster with parallel requests
         for section in section_list:
@@ -32,12 +33,8 @@ class Quizmaster():
             )
 
             generated_quiz_text = self.openai_client.generate_json(request_prompt)
-            print(generated_quiz_text)
-            quiz_list = json.loads(generated_quiz_text)["results"]
+            json_quiz_list = json.loads(generated_quiz_text)["results"]
+            quiz_list = MultipleChoiceQuestion.process_from_json_lists(json_quiz_list)
             final_quiz_list.extend(quiz_list)
 
         return final_quiz_list
-
-
-
-
