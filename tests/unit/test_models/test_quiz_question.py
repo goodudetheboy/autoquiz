@@ -59,9 +59,27 @@ class TestOpenAIClient(unittest.TestCase):
             self.assertEqual(choice.description, single_mcq["choices"][i]["description"])
             self.assertEqual(choice.is_correct, single_mcq["choices"][i]["isCorrect"])
 
-    # def test_multiple_choice_questions_list(self):
-    #     """ Test process multiple choice question """
-    #     sample_mcq_list = self.sample_multiple_choice_questions
+    def test_multiple_choice_questions_process_from_json_list(self):
+        """
+            Test process multiple choice question from a list of json questions
+        """
+        sample_mcq_list = self.sample_multiple_choice_questions
+
+        processed_mcq_list = MultipleChoiceQuestion.process_from_json_lists(sample_mcq_list)
+
+        for i in range(len(processed_mcq_list)):
+            processed_mcq = processed_mcq_list[i]
+            single_mcq = sample_mcq_list[i]
+
+            self.assertEqual(processed_mcq.question, single_mcq["question"])
+            self.assertEqual(len(processed_mcq.choices), len(single_mcq["choices"]))
+            
+            for i in range(len(processed_mcq.choices)):
+                choice = processed_mcq.choices[i]
+                self.assertEqual(choice.description, single_mcq["choices"][i]["description"])
+                self.assertEqual(choice.is_correct, single_mcq["choices"][i]["isCorrect"])
+
+           
 
     def tearDown(self):
         """Runs after each test."""

@@ -30,3 +30,13 @@ class MultipleChoiceQuestion():
             choices.append(new_choice)
 
         return MultipleChoiceQuestion(question, choices)
+    
+    @staticmethod
+    def process_from_json_lists(json_lists: list[dict]) -> list[MultipleChoiceQuestion]:
+        mcq_list: list[MultipleChoiceQuestion] = []
+        for json_data in json_lists:
+            new_mcq = MultipleChoiceQuestion.process_from_json(json_data)
+            mcq_list.append(new_mcq)
+        
+        return mcq_list
+
