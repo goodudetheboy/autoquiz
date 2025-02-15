@@ -15,14 +15,41 @@ class TestOpenAIClient(unittest.TestCase):
     def setUp(self):
         """Runs before each test."""
         pass  
-
-    def test_multiple_choice_question_process_from_json(self):
-        """ Test process multiple choice question """
+    
+    def test_single_multiple_choice_question(self):
+        """ Test process multiple choice question using constructor"""
         sample_mcq_list = self.sample_multiple_choice_questions
         single_mcq = sample_mcq_list[0]
 
-        processed_mcq = MultipleChoiceQuestion()
-        processed_mcq.process_from_json(single_mcq)
+        question = single_mcq["question"]
+        choices = []
+        
+        for json_choice in single_mcq["choices"]:
+            choice = MultipleChoiceQuestion.Choice(
+                json_choice["description"], 
+                json_choice["isCorrect"]
+            )
+            choices.append(choice)
+        
+        processed_mcq = MultipleChoiceQuestion(question, choices)
+
+        self.assertEqual(processed_mcq.question, single_mcq["question"])
+        self.assertEqual(len(processed_mcq.choices), len(single_mcq["choices"]))
+        
+        for i in range(len(processed_mcq.choices)):
+            choice = processed_mcq.choices[i]
+            self.assertEqual(choice.description, single_mcq["choices"][i]["description"])
+            self.assertEqual(choice.is_correct, single_mcq["choices"][i]["isCorrect"])
+
+
+        
+
+    def test_multiple_choice_question_process_from_json(self):
+        """ Test process multiple choice question with json"""
+        sample_mcq_list = self.sample_multiple_choice_questions
+        single_mcq = sample_mcq_list[0]
+
+        processed_mcq = MultipleChoiceQuestion.process_from_json(single_mcq)
 
         self.assertEqual(processed_mcq.question, single_mcq["question"])
         self.assertEqual(len(processed_mcq.choices), len(single_mcq["choices"]))

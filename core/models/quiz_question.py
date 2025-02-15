@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 class MultipleChoiceQuestion():
 
     class Choice():
@@ -9,20 +11,22 @@ class MultipleChoiceQuestion():
         question: str = None,
         choices: list[Choice] = None
     ):
-        # self.question = question
-        # self.choices = choices
-        pass
-
-    def process_from_json(self, json_data: dict):
+        self.question = question
+        self.choices = choices
+    
+    @staticmethod
+    def process_from_json(json_data: dict) -> MultipleChoiceQuestion:
         # Process question
-        self.question = json_data["question"]
+        question = json_data["question"]
 
         # Process choices
         json_choices = json_data["choices"]
-        self.choices: list[MultipleChoiceQuestion.Choice] = []
+        choices: list[MultipleChoiceQuestion.Choice] = []
 
         for json_choice in json_choices:
             description = json_choice["description"]
             is_correct = json_choice["isCorrect"]
             new_choice = MultipleChoiceQuestion.Choice(description, is_correct)
-            self.choices.append(new_choice)
+            choices.append(new_choice)
+
+        return MultipleChoiceQuestion(question, choices)
