@@ -42,14 +42,14 @@ elif [ "$TEST_CATEGORY" == "service" ]; then
 elif [ "$TEST_CATEGORY" == "api" ]; then
     if [ -n "$TEST_FILE" ]; then
         if [ "$TEST_FILE" == "all" ]; then
-            echo "Running all service tests..."
+            echo "Running all API tests..."
             python -m unittest discover -s "$API_TEST_PATH"
         else
             echo "Running test: $API_TEST_PATH/$TEST_FILE.py"
             python -m unittest "$API_TEST_PATH/$TEST_FILE.py"
         fi
     else
-        echo "Running all service tests..."
+        echo "Running all API tests..."
         python -m unittest discover -s "$API_TEST_PATH"
     fi
 else

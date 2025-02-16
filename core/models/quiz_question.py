@@ -22,6 +22,7 @@ class MultipleChoiceQuestion():
         self.choices: list[MultipleChoiceQuestion.Choice] = choices
     
     def export_json(self) -> dict:
+        print("processing")
         json_result = {}
 
         json_result["question"] = self.question
