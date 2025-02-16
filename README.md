@@ -124,19 +124,19 @@ strategy.
       "choices": [
         {
           "description": "To communicate issues in network transmissions to the source",
-          "isCorrect": true
+          "is_correct": true
         },
         {
           "description": "To establish secure connections between devices",
-          "isCorrect": false
+          "is_correct": false
         },
         {
           "description": "To provide high-speed data transfer",
-          "isCorrect": false
+          "is_correct": false
         },
         {
           "description": "To route data through the internet using IP addresses",
-          "isCorrect": false
+          "is_correct": false
         }
       ]
     },
