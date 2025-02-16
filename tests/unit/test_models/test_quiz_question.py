@@ -83,8 +83,7 @@ class TestOpenAIClient(unittest.TestCase):
             Test for a MultipleChoiceQuestion object to export its content to
             JSON
         """
-        test_mcq_instance = MultipleChoiceQuestion()
-        test_mcq_instance.process_from_json(
+        test_mcq_instance = MultipleChoiceQuestion.process_from_json(
             self.sample_multiple_choice_questions[0]
         )
         test_mcq_instance_json = test_mcq_instance.export_json()
