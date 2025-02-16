@@ -12,6 +12,8 @@ class TestOpenAIClient(unittest.TestCase):
             processed_json = json.load(f)
             cls.sample_multiple_choice_questions = processed_json["results"]
 
+        # Provide a default MultipleChoiceQuestion for subsequent tests
+    
     def setUp(self):
         """Runs before each test."""
         pass  
@@ -40,9 +42,6 @@ class TestOpenAIClient(unittest.TestCase):
             choice = processed_mcq.choices[i]
             self.assertEqual(choice.description, single_mcq["choices"][i]["description"])
             self.assertEqual(choice.is_correct, single_mcq["choices"][i]["is_correct"])
-
-
-        
 
     def test_multiple_choice_question_process_from_json(self):
         """ Test process multiple choice question with json"""
@@ -79,7 +78,18 @@ class TestOpenAIClient(unittest.TestCase):
                 self.assertEqual(choice.description, single_mcq["choices"][i]["description"])
                 self.assertEqual(choice.is_correct, single_mcq["choices"][i]["is_correct"])
 
-           
+    def test_export_multiple_choice_question_to_json(self):
+        """
+            Test for a MultipleChoiceQuestion object to export its content to
+            JSON
+        """
+        test_mcq_instance = MultipleChoiceQuestion()
+        test_mcq_instance.process_from_json(
+            self.sample_multiple_choice_questions[0]
+        )
+        test_mcq_instance_json = test_mcq_instance.export_json()
+
+        self.assertEqual(test_mcq_instance_json, self.sample_multiple_choice_questions[0])
 
     def tearDown(self):
         """Runs after each test."""
