@@ -5,19 +5,19 @@
       "choices": [
         {
           "description": "To communicate issues in network transmissions to the source",
-          "isCorrect": true
+          "is_correct": true
         },
         {
           "description": "To establish secure connections between devices",
-          "isCorrect": false
+          "is_correct": false
         },
         {
           "description": "To provide high-speed data transfer",
-          "isCorrect": false
+          "is_correct": false
         },
         {
           "description": "To route data through the internet using IP addresses",
-          "isCorrect": false
+          "is_correct": false
         }
       ]
     },
@@ -26,19 +26,19 @@
       "choices": [
         {
           "description": "ICMP Echo Request",
-          "isCorrect": true
+          "is_correct": true
         },
         {
           "description": "TCP SYN Packet",
-          "isCorrect": false
+          "is_correct": false
         },
         {
           "description": "UDP Datagram",
-          "isCorrect": false
+          "is_correct": false
         },
         {
           "description": "IP Header Information",
-          "isCorrect": false
+          "is_correct": false
         }
       ]
     },
@@ -47,19 +47,19 @@
       "choices": [
         {
           "description": "Manipulation of the TTL (Time To Live) field",
-          "isCorrect": true
+          "is_correct": true
         },
         {
           "description": "Analysis of data payloads",
-          "isCorrect": false
+          "is_correct": false
         },
         {
           "description": "Encryption of packet headers",
-          "isCorrect": false
+          "is_correct": false
         },
         {
           "description": "Verification of packet checksums",
-          "isCorrect": false
+          "is_correct": false
         }
       ]
     },
@@ -68,19 +68,19 @@
       "choices": [
         {
           "description": "Test-NetConnection",
-          "isCorrect": true
+          "is_correct": true
         },
         {
           "description": "nslookup",
-          "isCorrect": false
+          "is_correct": false
         },
         {
           "description": "netcat",
-          "isCorrect": false
+          "is_correct": false
         },
         {
           "description": "ping",
-          "isCorrect": false
+          "is_correct": false
         }
       ]
     },
@@ -89,19 +89,19 @@
       "choices": [
         {
           "description": "8 bits",
-          "isCorrect": true
+          "is_correct": true
         },
         {
           "description": "16 bits",
-          "isCorrect": false
+          "is_correct": false
         },
         {
           "description": "32 bits",
-          "isCorrect": false
+          "is_correct": false
         },
         {
           "description": "64 bits",
-          "isCorrect": false
+          "is_correct": false
         }
       ]
     }

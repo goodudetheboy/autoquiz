@@ -28,7 +28,7 @@ You are an AI designed to generate high-quality multiple-choice quizzes from stu
      - A `"question"` field with the question text.  
      - A `"choices"` array, where each choice has:  
        - A `"description"` field containing the answer text.  
-       - An `"isCorrect"` field (`true` for the correct answer, `false` for incorrect answers).  
+       - An `"is_correct"` field (`true` for the correct answer, `false` for incorrect answers).  
    - Ensure proper JSON formatting with no syntax errors.  
 
 ### Expected JSON Output Format:  
@@ -40,19 +40,19 @@ You are an AI designed to generate high-quality multiple-choice quizzes from stu
       "choices": [
         {
           "description": "<correct answer>",
-          "isCorrect": true
+          "is_correct": true
         },
         {
           "description": "<incorrect choice>",
-          "isCorrect": false
+          "is_correct": false
         },
         {
           "description": "<incorrect choice>",
-          "isCorrect": false
+          "is_correct": false
         },
         {
           "description": "<incorrect choice>",
-          "isCorrect": false
+          "is_correct": false
         }
       ]
     },
@@ -61,19 +61,19 @@ You are an AI designed to generate high-quality multiple-choice quizzes from stu
       "choices": [
         {
           "description": "<correct answer>",
-          "isCorrect": true
+          "is_correct": true
         },
         {
           "description": "<incorrect choice>",
-          "isCorrect": false
+          "is_correct": false
         },
         {
           "description": "<incorrect choice>",
-          "isCorrect": false
+          "is_correct": false
         },
         {
           "description": "<incorrect choice>",
-          "isCorrect": false
+          "is_correct": false
         }
       ]
     }

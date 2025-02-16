@@ -27,7 +27,7 @@ class TestOpenAIClient(unittest.TestCase):
         for json_choice in single_mcq["choices"]:
             choice = MultipleChoiceQuestion.Choice(
                 json_choice["description"], 
-                json_choice["isCorrect"]
+                json_choice["is_correct"]
             )
             choices.append(choice)
         
@@ -39,7 +39,7 @@ class TestOpenAIClient(unittest.TestCase):
         for i in range(len(processed_mcq.choices)):
             choice = processed_mcq.choices[i]
             self.assertEqual(choice.description, single_mcq["choices"][i]["description"])
-            self.assertEqual(choice.is_correct, single_mcq["choices"][i]["isCorrect"])
+            self.assertEqual(choice.is_correct, single_mcq["choices"][i]["is_correct"])
 
 
         
@@ -57,7 +57,7 @@ class TestOpenAIClient(unittest.TestCase):
         for i in range(len(processed_mcq.choices)):
             choice = processed_mcq.choices[i]
             self.assertEqual(choice.description, single_mcq["choices"][i]["description"])
-            self.assertEqual(choice.is_correct, single_mcq["choices"][i]["isCorrect"])
+            self.assertEqual(choice.is_correct, single_mcq["choices"][i]["is_correct"])
 
     def test_multiple_choice_questions_process_from_json_list(self):
         """
@@ -77,7 +77,7 @@ class TestOpenAIClient(unittest.TestCase):
             for i in range(len(processed_mcq.choices)):
                 choice = processed_mcq.choices[i]
                 self.assertEqual(choice.description, single_mcq["choices"][i]["description"])
-                self.assertEqual(choice.is_correct, single_mcq["choices"][i]["isCorrect"])
+                self.assertEqual(choice.is_correct, single_mcq["choices"][i]["is_correct"])
 
            
 

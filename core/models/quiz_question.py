@@ -25,7 +25,7 @@ class MultipleChoiceQuestion():
 
         for json_choice in json_choices:
             description = json_choice["description"]
-            is_correct = json_choice["isCorrect"]
+            is_correct = json_choice["is_correct"]
             new_choice = MultipleChoiceQuestion.Choice(description, is_correct)
             choices.append(new_choice)
 
