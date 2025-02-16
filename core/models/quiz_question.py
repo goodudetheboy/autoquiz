@@ -6,14 +6,31 @@ class MultipleChoiceQuestion():
         def __init__(self, description: str, is_correct: bool):
             self.description = description
             self.is_correct = is_correct
+
+        def export_json(self) -> dict:
+            json_result = {}
+            json_result["description"] = self.description
+            json_result["is_correct"] = self.is_correct
             
+            return json_result
+
     def __init__(self,
         question: str = None,
         choices: list[Choice] = None
     ):
         self.question = question
-        self.choices = choices
+        self.choices: list[MultipleChoiceQuestion.Choice] = choices
     
+    def export_json(self) -> dict:
+        json_result = {}
+
+        json_result["question"] = self.question
+        json_result["choices"] = []
+        for choice in self.choices:
+            json_result["choices"].append(choice.export_json())
+
+        return json_result
+
     @staticmethod
     def process_from_json(json_data: dict) -> MultipleChoiceQuestion:
         # Process question
