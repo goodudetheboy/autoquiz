@@ -3,11 +3,13 @@
 ## API Documentation
 
 ### **Base URL**
-```
-https://<specified URL here>/api
+
+```url
+https://<specified URL here>
 ```
 
 ### **Authentication**
+
 - Describe any authentication requirements here (e.g., token-based, OAuth, etc.).
 
 ---
@@ -54,16 +56,19 @@ GET /example/data?param=value
 --- -->
 
 #### 2. **`POST /api/quiz/create`**
-##### Description:
+
+##### Description
 
 This endpoint creates a list of quiz based on the given data in the request body.
 Typically, this would contain a plaintext of a study note and sectioning
 strategy.
 
-##### Request:
+##### Request
+
 - **HTTP Method:** `POST`
 - **Endpoint:** `/api/quiz/create`
 - **Request Body (JSON):**
+
 ```json
 {
   "note_content": "<str> Content of a note the user wants to create quiz out of.",
@@ -73,7 +78,8 @@ strategy.
 }
 ```
 
-##### Example Request:
+##### Example Request
+
 ```json
 {
   "note_content": "Today we are going to learn about Computer Networking <1000 words more>",
@@ -83,11 +89,13 @@ strategy.
 }
 ```
 
-##### Response:
+##### Response
+
 - **HTTP Status Code:**
   - `200 OK`: When a quiz list is succesfully created.
   - `400 Bad Request`: If any required param field is missing in the request body.
 - **Response Body (JSON):**
+
   ```json
   {
     "results": [
@@ -106,7 +114,8 @@ strategy.
   }
   ```
 
-##### Example Response:
+##### Example Response
+
 ```json
 {
   "results": [
@@ -151,7 +160,7 @@ strategy.
 
 ## Testing
 
-#### **Test Directory Structure**  
+### **Test Directory Structure**  
 
 TBD
 
@@ -255,7 +264,7 @@ This document serves as a reference for executing tests in a structured and effi
 
 ## Contribution Guidelines
 
-#### **Commit Message Tags**
+### **Commit Message Tags**
 
 To keep our commit history clean and organized, we use the following tags to categorize our commit messages:
 
