@@ -12,6 +12,11 @@ body {
     background: #ECF0F1;
 }
 
+.container {
+    display: flex;
+    width: 100%;
+}
+
 /* Sidebar Styles */
 .sidebar {
     width: 200px;
