@@ -154,6 +154,14 @@ button:hover {
     background: #2980B9;
 }
 
+/* Error message styling */
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    display: block;
+    height: 1.2em;
+}
+
 /* Responsive Design */
 @media screen and (max-width: 900px) {
     .main-content {
