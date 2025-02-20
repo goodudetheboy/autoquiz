@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered MCQ Generator</title>
+    <link rel="stylesheet" href="../static/styles/index.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <button id="toggle-sidebar"><i class="fas fa-bars"></i></button>
+            <nav>
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> <span class="nav-text">Home</span></a></li>
+                    <li><a href="#"><i class="fas fa-upload"></i> <span class="nav-text">Upload Notes</span></a></li>
+                    <li><a href="#"><i class="fas fa-cogs"></i> <span class="nav-text">Sectioning Settings</span></a></li>
+                    <li><a href="#"><i class="fas fa-sliders-h"></i> <span class="nav-text">Quiz Settings</span></a></li>
+                    <li><a href="#"><i class="fas fa-history"></i> <span class="nav-text">History</span></a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <div class="left-panel">
+                <section class="upload-section">
+                    <h3>Upload Notes</h3>
+                    <textarea id="notes-input" placeholder="Paste your notes here..."></textarea>
+                    <button id="process-btn">Process Note</button>
+                </section>
+                <section class="settings">
+                    <h3>Sectioning Customization</h3>
+                    <label for="section-strategy">Sectioning Strategy:</label>
+                    <select id="section-strategy">
+                        <option value="auto">Automatic</option>
+                        <option value="manual">Manual</option>
+                    </select>
+                    <label for="num-sections">Number of Sections:</label>
+                    <input type="number" id="num-sections" min="1" value="3">
+                    <h3>Quiz Settings</h3>
+                    <label for="num-questions">Number of Questions:</label>
+                    <input type="number" id="num-questions" min="1" value="5">
+                    <button id="generate-quiz">Generate Quiz</button>
+                </section>
+            </div>
+            <div class="right-panel">
+                <section class="quiz-preview">
+                    <h3>Quiz Preview</h3>
+                    <div id="quiz-container"></div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="../static/scripts/index.js"></script>
+</body>
+</html>
