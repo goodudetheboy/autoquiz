@@ -29,3 +29,15 @@ document.getElementById("toggle-sidebar").addEventListener("click", function () 
     document.querySelector(".sidebar").classList.toggle("collapsed");
 });
 
+document.getElementById("section-strategy").addEventListener("change", function () {
+    const autoSettings = document.getElementById("automatic-settings");
+    const staticSettings = document.getElementById("static-settings");
+
+    if (this.value === "automatic") {
+        autoSettings.style.display = "block";
+        staticSettings.style.display = "none";
+    } else {
+        autoSettings.style.display = "none";
+        staticSettings.style.display = "block";
+    }
+});

@@ -35,16 +35,33 @@
                 </section>
                 <section class="settings">
                     <h3>Sectioning Customization</h3>
-                    <label for="section-strategy">Sectioning Strategy:</label>
+                    <label for="section-strategy" title="Choose how the note is divided into sections.">
+                        Sectioning Strategy:
+                    </label>
                     <select id="section-strategy">
-                        <option value="auto">Automatic</option>
-                        <option value="manual">Manual</option>
+                        <option value="automatic">Automatic</option>
+                        <option value="static">Static Sectioning</option>
                     </select>
-                    <label for="num-sections">Number of Sections:</label>
-                    <input type="number" id="num-sections" min="1" value="3">
                     <h3>Quiz Settings</h3>
-                    <label for="num-questions">Number of Questions:</label>
-                    <input type="number" id="num-questions" min="1" value="5">
+
+                    <div id="automatic-settings">
+                        <label for="num-questions" title="Total number of quiz questions to generate.">
+                            Total Number of Questions:
+                        </label>
+                        <input type="number" id="num-questions" min="1" max="100" value="5">
+                    </div>
+
+                    <div id="static-settings" style="display: none;">
+                        <label for="num-sections" title="How many sections to divide the note into.">
+                            Total Sections:
+                        </label>
+                        <input type="number" id="num-sections" min="1" max="10" value="3">
+
+                        <label for="quizzes-per-section" title="How many quiz questions should be in each section.">
+                            Number of Quizzes per Section:
+                        </label>
+                        <input type="number" id="quizzes-per-section" min="1" max="10" value="5">
+                    </div>
                     <button id="generate-quiz">Generate Quiz</button>
                 </section>
             </div>
