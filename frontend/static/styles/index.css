@@ -83,6 +83,15 @@ body {
     flex-grow: 1;
     padding: 20px;
     gap: 20px;
+		overflow: hidden;
+}
+
+/* Panel Shared Settings */
+.left-panel, .right-panel {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 100vh;
+    padding: 15px; 
 }
 
 /* Left Panel */
