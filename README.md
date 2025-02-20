@@ -1,8 +1,166 @@
 # autoquiz
 
+## API Documentation
+
+### **Base URL**
+
+```url
+https://<specified URL here>
+```
+
+### **Authentication**
+
+- Describe any authentication requirements here (e.g., token-based, OAuth, etc.).
+
+---
+
+### **Endpoints**
+<!-- 
+#### 1. **`GET /example/data`**
+##### Description:
+This endpoint retrieves example data based on a query parameter (`param`).
+
+##### Request:
+- **HTTP Method:** `GET`
+- **Endpoint:** `/example/data`
+- **Query Parameters:**
+  - `param` (required): A string parameter used to fetch data from the service.
+
+##### Example Request:
+```
+GET /example/data?param=value
+```
+
+##### Response:
+- **HTTP Status Code:**
+  - `200 OK`: When data is successfully retrieved.
+  - `400 Bad Request`: If the `param` is missing or invalid.
+- **Response Body (JSON):**
+  ```json
+  {
+    "key": "value"
+  }
+  ```
+
+##### Example Response:
+```json
+{
+  "key": "mocked_value"
+}
+```
+
+##### Expected Behavior:
+- The API should return data corresponding to the value of the `param` query parameter.
+- If `param` is not provided or is invalid, return a `400 Bad Request` with an error message.
+
+--- -->
+
+#### 2. **`POST /api/quiz/create`**
+
+##### Description
+
+This endpoint creates a list of quiz based on the given data in the request body.
+Typically, this would contain a plaintext of a study note and sectioning
+strategy.
+
+##### Request
+
+- **HTTP Method:** `POST`
+- **Endpoint:** `/api/quiz/create`
+- **Request Body (JSON):**
+
+```json
+{
+  "note_content": "<str> Content of a note the user wants to create quiz out of.",
+  "sectioning_strategy": "<'static_sectioning'>The desired sectioning strategy to split the note_content for processing. Currently supports 'static_sectioning'.",
+  "num_section": "<int> The number of sections by which the quiz will be split up.",
+  "num_quiz_per_section": "<int> The number of quiz questions per section."
+}
+```
+
+##### Example Request
+
+```json
+{
+  "note_content": "Today we are going to learn about Computer Networking <1000 words more>",
+  "sectioning_strategy": "static_sectioning",
+  "num_section": 5,
+  "num_quiz_per_section": 4
+}
+```
+
+##### Response
+
+- **HTTP Status Code:**
+  - `200 OK`: When a quiz list is succesfully created.
+  - `400 Bad Request`: If any required param field is missing in the request body.
+- **Response Body (JSON):**
+
+  ```json
+  {
+    "results": [
+      {
+        "question": "<str> The question for the quiz",
+        "choices": [
+          {
+            "description": "<str> The description of the quiz",
+            "is_correct": "<bool> Determines if this choice is correct or not" 
+          },
+          // More choices here
+        ]
+      },
+      // More question here
+    ]
+  }
+  ```
+
+##### Example Response
+
+```json
+{
+  "results": [
+    {
+      "question": "What is the primary function of the Internet Control Message Protocol (ICMP)?",
+      "choices": [
+        {
+          "description": "To communicate issues in network transmissions to the source",
+          "is_correct": true
+        },
+        {
+          "description": "To establish secure connections between devices",
+          "is_correct": false
+        },
+        {
+          "description": "To provide high-speed data transfer",
+          "is_correct": false
+        },
+        {
+          "description": "To route data through the internet using IP addresses",
+          "is_correct": false
+        }
+      ]
+    },
+    // More question here
+  ]
+}
+```
+<!-- 
+##### Expected Behavior:
+- The API should successfully create data based on the provided `param` field.
+- If the `param` field is missing in the request body, return a `400 Bad Request` response with a relevant error message.
+
+---
+
+### **Error Responses**
+
+- **400 Bad Request:** Indicates a malformed request or missing required parameters.
+- **404 Not Found:** If the requested resource doesn't exist.
+- **500 Internal Server Error:** If something goes wrong on the server.
+ -->
+
 ## Testing
 
-#### **Test Directory Structure**  
+### **Test Directory Structure**  
 
 TBD
 
@@ -106,7 +264,7 @@ This document serves as a reference for executing tests in a structured and effi
 
 ## Contribution Guidelines
 
-#### **Commit Message Tags**
+### **Commit Message Tags**
 
 To keep our commit history clean and organized, we use the following tags to categorize our commit messages:
 
