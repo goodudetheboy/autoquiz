@@ -1,3 +1,6 @@
+import { fieldsToValidate, limits } from "./validate";
+
+
 document.getElementById("process-btn").addEventListener("click", function () {
     const notes = document.getElementById("notes-input").value.trim();
     if (!notes) {
@@ -42,12 +45,23 @@ document.getElementById("section-strategy").addEventListener("change", function 
     }
 });
 
-// Define max limits dynamically (can be fetched from a backend if needed)
-const limits = {
-    "automatic-num-questions": { min: 1, max: 100 },
-    "static-num-sections": {min: 1, max: 10},
-    "static-quizzes-per-section": {min: 1, max: 10},
-};
+// Validate before generating the quiz
+document.getElementById("generate-quiz").addEventListener("click", function (event) {
+    if (!validateQuizInputs()) {
+        event.preventDefault(); // Prevent submission if invalid
+    }
+});
+
+// Attach event listeners for real-time validation
+fieldsToValidate.forEach(fieldId => {
+    const field = document.getElementById(fieldId);
+    if (field) field.addEventListener("input", () => validateField(fieldId));
+});
+
+// Function to validate all inputs
+function validateQuizInputs() {
+    return fieldsToValidate.map(validateField).every(valid => valid); // Ensure all are valid
+}
 
 // Function to validate any field dynamically
 function validateField(fieldId) {
@@ -70,22 +84,4 @@ function validateField(fieldId) {
     }
 }
 
-const fieldsToValidate = ["automatic-num-questions", "static-num-sections", "static-quizzes-per-section"];
 
-// Function to validate all inputs
-function validateQuizInputs() {
-    return fieldsToValidate.map(validateField).every(valid => valid); // Ensure all are valid
-}
-
-// Attach event listeners for real-time validation
-fieldsToValidate.forEach(fieldId => {
-    const field = document.getElementById(fieldId);
-    if (field) field.addEventListener("input", () => validateField(fieldId));
-});
-
-// Validate before generating the quiz
-document.getElementById("generate-quiz").addEventListener("click", function (event) {
-    if (!validateQuizInputs()) {
-        event.preventDefault(); // Prevent submission if invalid
-    }
-});
