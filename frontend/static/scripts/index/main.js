@@ -1,4 +1,4 @@
-import { fieldsToValidate, limits } from "./validate";
+import { fieldsToValidate, limits } from "./validate.js";
 
 
 document.getElementById("process-btn").addEventListener("click", function () {
