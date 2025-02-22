@@ -47,7 +47,7 @@ class QuizAPITestCase(unittest.TestCase):
                 "debug_mode": True,
             }
         )
-        with open("../../api/data/debug_mode_multiple_choices_question.json", "r", encoding="utf-8") as f:
+        with open("./api/data/debug_mode_multiple_choice_questions.json", "r", encoding="utf-8") as f:
             expected_questions = json.loads(f.read())
         self.assertEqual(response.status_code, 200)
         self.assertEqual(

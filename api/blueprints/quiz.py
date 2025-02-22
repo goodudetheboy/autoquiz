@@ -1,3 +1,5 @@
+import json
+import os
 from flask import request, Blueprint, jsonify
 from core.models.note import Note
 from core.models.sectioning_strategy import StaticSectioningStrategy
@@ -8,7 +10,13 @@ quiz_bp = Blueprint("main", __name__)
 @quiz_bp.route("/api/quiz/create", methods=["POST"])
 def post_create_quiz():
     json_data = request.get_json()
-
+     
+    if "debug_mode" in json_data:
+        print(os.getcwd())
+        with open("./api/data/debug_mode_multiple_choice_questions.json", "r", encoding="utf-8") as f:
+            sample_questions = json.load(f)
+        
+        return jsonify(sample_questions), 200
     note_content = json_data["note_content"]
     sectioning_strategy = json_data["sectioning_strategy"]
     num_section = json_data["num_section"]
