@@ -1,5 +1,26 @@
 import { fieldsToValidate, limits } from "./validate.js";
 
+function switchStrategySettings() {
+    const selected_strat = document.getElementById("section-strategy").value;
+
+    const autoSettings = document.getElementById("automatic-settings");
+    const staticSettings = document.getElementById("static-settings");
+
+    if (selected_strat === "automatic") {
+        autoSettings.style.display = "block";
+        staticSettings.style.display = "none";
+    } else if (selected_strat === "static") {
+        autoSettings.style.display = "none";
+        staticSettings.style.display = "block";
+    } else if (selected_strat === "debug") {
+        autoSettings.style.display = "none";
+        staticSettings.style.display = "none";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  switchStrategySettings();
+})
 
 document.getElementById("process-btn").addEventListener("click", function () {
     const notes = document.getElementById("notes-input").value.trim();
@@ -32,28 +53,42 @@ document.getElementById("toggle-sidebar").addEventListener("click", function () 
     document.querySelector(".sidebar").classList.toggle("collapsed");
 });
 
-document.getElementById("section-strategy").addEventListener("change", function () {
-    const autoSettings = document.getElementById("automatic-settings");
-    const staticSettings = document.getElementById("static-settings");
-
-    if (this.value === "automatic") {
-        autoSettings.style.display = "block";
-        staticSettings.style.display = "none";
-    } else if (this.value == "static") {
-        autoSettings.style.display = "none";
-        staticSettings.style.display = "block";
-    } else if (this.value == "debug") {
-        autoSettings.style.display = "none";
-        staticSettings.style.display = "none";
-    }
-});
+document.getElementById("section-strategy").addEventListener("change", switchStrategySettings);
 
 // Validate before generating the quiz
 document.getElementById("generate-quiz").addEventListener("click", function (event) {
     if (!validateQuizInputs()) {
-        event.preventDefault(); // Prevent submission if invalid
+        event.preventDefault();
+        alert("Something is wrong. Please check all fields in Quiz Settings!");
+        return;
+    }
+    const selected_strat = document.getElementById("section-strategy").value;
+
+    if (selected_strat == "debug") {
+        fetch(`/api/quiz/create`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                debug_mode: true,
+            })
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log(data);
+            console.log("Hello");
+          })
+          .catch(error => console.error("Fetch error:", error));
     }
 });
+
+
 
 // Attach event listeners for real-time validation
 fieldsToValidate.forEach(fieldId => {
