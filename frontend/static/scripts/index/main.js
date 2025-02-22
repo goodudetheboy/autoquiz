@@ -39,9 +39,12 @@ document.getElementById("section-strategy").addEventListener("change", function 
     if (this.value === "automatic") {
         autoSettings.style.display = "block";
         staticSettings.style.display = "none";
-    } else {
+    } else if (this.value == "static") {
         autoSettings.style.display = "none";
         staticSettings.style.display = "block";
+    } else if (this.value == "debug") {
+        autoSettings.style.display = "none";
+        staticSettings.style.display = "none";
     }
 });
 
