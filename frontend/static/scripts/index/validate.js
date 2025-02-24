@@ -1,5 +1,15 @@
 // Define max limits dynamically (can be fetched from a backend if needed)
-export const fieldsToValidate = ["automatic-num-questions", "static-num-sections", "static-quizzes-per-section"];
+
+export const fieldsToValidate = {
+    "automatic": [
+        "automatic-num-questions"
+    ],
+    "static": [
+        "static-num-questions",
+        "static-quizzes-per-section"
+    ],
+    "debug": [],
+}
 
 export const limits = {
     "automatic-num-questions": { min: 1, max: 100 },

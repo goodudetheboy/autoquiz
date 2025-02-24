@@ -32,23 +32,6 @@ document.getElementById("process-btn").addEventListener("click", function () {
     alert("Notes processed! (Placeholder for AI logic)");
 });
 
-document.getElementById("generate-quiz").addEventListener("click", function () {
-    const numQuestions = document.getElementById("num-questions").value;
-    const quizContainer = document.getElementById("quiz-container");
-
-    if (numQuestions < 1) {
-        alert("Please enter at least one question.");
-        return;
-    }
-
-    quizContainer.innerHTML = "<p>Generated Quiz:</p>";
-    for (let i = 1; i <= numQuestions; i++) {
-        let questionDiv = document.createElement("div");
-        questionDiv.textContent = `Question ${i}: (Placeholder for AI-generated question)`;
-        quizContainer.appendChild(questionDiv);
-    }
-});
-
 document.getElementById("toggle-sidebar").addEventListener("click", function () {
     document.querySelector(".sidebar").classList.toggle("collapsed");
 });
@@ -71,14 +54,16 @@ document.getElementById("generate-quiz").addEventListener("click", function (eve
 
 
 // Attach event listeners for real-time validation
-fieldsToValidate.forEach(fieldId => {
+Object.values(fieldsToValidate).forEach(fieldId => {
     const field = document.getElementById(fieldId);
     if (field) field.addEventListener("input", () => validateField(fieldId));
 });
 
 // Function to validate all inputs
 function validateQuizInputs() {
-    return fieldsToValidate.map(validateField).every(valid => valid); // Ensure all are valid
+    const selected_strat = document.getElementById("section-strategy").value;
+    const fields = fieldsToValidate[selected_strat];
+    return fields.map(validateField).every(valid => valid); // Ensure all are valid
 }
 
 // Function to validate any field dynamically
