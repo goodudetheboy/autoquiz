@@ -65,27 +65,7 @@ document.getElementById("generate-quiz").addEventListener("click", function (eve
     const selected_strat = document.getElementById("section-strategy").value;
 
     if (selected_strat == "debug") {
-        fetch(`/api/quiz/create`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                debug_mode: true,
-            })
-          })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-          })
-          .then(data => {
-            console.log(data);
-            console.log("Hello");
-          })
-          .catch(error => console.error("Fetch error:", error));
-    }
+    } 
 });
 
 

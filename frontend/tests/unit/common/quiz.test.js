@@ -1,5 +1,5 @@
 import { createQuiz } from "../../../static/scripts/common/quiz.js";
-import fs from "fs"; // Node"s File System module
+import fs from "fs";
 import { jest } from "@jest/globals"
 
 describe("create_quiz", () => {
