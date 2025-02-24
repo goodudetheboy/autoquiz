@@ -1,3 +1,5 @@
+import { createQuiz } from "../common/quiz.js";
+import { renderQuiz } from "./quiz-ui.js";
 import { fieldsToValidate, limits } from "./validate.js";
 
 function switchStrategySettings() {
@@ -39,16 +41,32 @@ document.getElementById("toggle-sidebar").addEventListener("click", function () 
 document.getElementById("section-strategy").addEventListener("change", switchStrategySettings);
 
 // Validate before generating the quiz
-document.getElementById("generate-quiz").addEventListener("click", function (event) {
+document.getElementById("generate-quiz").addEventListener("click", async function (event) {
     if (!validateQuizInputs()) {
         event.preventDefault();
         alert("Something is wrong. Please check all fields in Quiz Settings!");
         return;
     }
     const selected_strat = document.getElementById("section-strategy").value;
+    var quizData = null;
+    try {
 
-    if (selected_strat == "debug") {
-    } 
+        if (selected_strat === "debug") {
+            quizData = await createQuiz({
+                "debug_mode": true,
+            });
+        }
+        
+        if (quizData == null) {
+            throw new Error("Can't resolve quizzes even though the requests went through :(");
+        }
+    } catch (error) {
+        console.error(error);
+        alert("Something happens when requesting quizzes! Please try again later.");
+    }
+    
+    const quizContainer = document.getElementById("quiz-container");
+    renderQuiz(quizContainer, quizData);
 });
 
 
