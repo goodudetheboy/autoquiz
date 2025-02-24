@@ -71,6 +71,7 @@ strategy.
 
 ```json
 {
+  "debug_mode": "<true> special use for debugging, will return 5 valid MCQ questions. This overrides all other settings",
   "note_content": "<str> Content of a note the user wants to create quiz out of.",
   "sectioning_strategy": "<'static_sectioning'>The desired sectioning strategy to split the note_content for processing. Currently supports 'static_sectioning'.",
   "num_section": "<int> The number of sections by which the quiz will be split up.",
