@@ -26,15 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
   setUpNotesWordAndLineCount();
 })
 
-document.getElementById("process-btn").addEventListener("click", function () {
-    const notes = document.getElementById("notes-input").value.trim();
-    if (!notes) {
-        alert("Please enter some notes before processing.");
-        return;
-    }
-    console.log("Processing notes:", notes);
-    alert("Notes processed! (Placeholder for AI logic)");
-});
 
 document.getElementById("toggle-sidebar").addEventListener("click", function () {
     document.querySelector(".sidebar").classList.toggle("collapsed");
@@ -44,20 +35,23 @@ document.getElementById("section-strategy").addEventListener("change", switchStr
 
 // Validate before generating the quiz
 document.getElementById("generate-quiz").addEventListener("click", async function (event) {
-    if (!validateQuizInputs()) {
-        event.preventDefault();
-        alert("Something is wrong. Please check all fields in Quiz Settings!");
-        return;
-    }
-    // Check notes
-    const notes = document.getElementById("notes-input").value.trim();
-    if (!notes) {
-        alert("Please enter some notes before processing.");
-        return;
-    }
-    
-    // Start generation
     const selected_strat = document.getElementById("section-strategy").value;
+    
+    if (selected_strat !== "debug") {
+        if (!validateQuizInputs()) {
+            event.preventDefault();
+            alert("Something is wrong. Please check all fields in Quiz Settings!");
+            return;
+        }
+        // Check notes
+        const notes = document.getElementById("notes-input").value.trim();
+        if (!notes) {
+            alert("Please enter some notes before processing.");
+            return;
+        }
+    }
+   
+    // Start generation
     var quizData = null;
     try {
         if (selected_strat == "debug") {

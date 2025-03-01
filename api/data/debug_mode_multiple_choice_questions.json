@@ -1,109 +1,319 @@
 {
   "results": [
     {
-      "question": "What is the primary function of the Internet Control Message Protocol (ICMP)?",
       "choices": [
         {
-          "description": "To communicate issues in network transmissions to the source",
+          "description": "To parse, check, and verify SQL queries and translate them into efficient relational query plans.",
           "is_correct": true
         },
         {
-          "description": "To establish secure connections between devices",
+          "description": "To manage the storage and organization of data on disk drives.",
           "is_correct": false
         },
         {
-          "description": "To provide high-speed data transfer",
+          "description": "To provide concurrency control and recovery management.",
           "is_correct": false
         },
         {
-          "description": "To route data through the internet using IP addresses",
+          "description": "To handle user authentication and security management.",
           "is_correct": false
         }
-      ]
+      ],
+      "question": "What is the main purpose of the parsing and optimization phase in a DBMS?"
     },
     {
-      "question": "What type of message is sent by the 'ping' command?",
       "choices": [
         {
-          "description": "ICMP Echo Request",
+          "description": "Buffer Management",
           "is_correct": true
         },
         {
-          "description": "TCP SYN Packet",
+          "description": "Disk Space Management",
           "is_correct": false
         },
         {
-          "description": "UDP Datagram",
+          "description": "Query Parsing & Optimization",
           "is_correct": false
         },
         {
-          "description": "IP Header Information",
+          "description": "Files and Index Management",
           "is_correct": false
         }
-      ]
+      ],
+      "question": "Which component of a DBMS is responsible for providing the illusion of operating in memory?"
     },
     {
-      "question": "What mechanism does traceroute use to identify the path packets take across the network?",
       "choices": [
         {
-          "description": "Manipulation of the TTL (Time To Live) field",
+          "description": "Fine-grain reads and coarse-grain writes lead to write amplification.",
           "is_correct": true
         },
         {
-          "description": "Analysis of data payloads",
+          "description": "Flash storage consumes more power than traditional hard drives.",
           "is_correct": false
         },
         {
-          "description": "Encryption of packet headers",
+          "description": "Flash storage has higher sequential read times than random access memory.",
           "is_correct": false
         },
         {
-          "description": "Verification of packet checksums",
+          "description": "Flash storage systems lack the ability to perform wear leveling.",
           "is_correct": false
         }
-      ]
+      ],
+      "question": "What is a key challenge of flash storage (SSD) mentioned in the study notes?"
     },
     {
-      "question": "Which tool allows testing of port connectivity at the transport layer on Windows?",
       "choices": [
         {
-          "description": "Test-NetConnection",
+          "description": "By organizing in layers where each layer abstracts the layer below.",
           "is_correct": true
         },
         {
-          "description": "nslookup",
+          "description": "By integrating all operations into a single unified layer.",
           "is_correct": false
         },
         {
-          "description": "netcat",
+          "description": "By directly mapping application queries to disk storage commands.",
           "is_correct": false
         },
         {
-          "description": "ping",
+          "description": "By prioritizing SQL parsing over all other operations.",
           "is_correct": false
         }
-      ]
+      ],
+      "question": "How does the architecture of a DBMS manage complexity and performance according to the study notes?"
     },
     {
-      "question": "How many bits are used to specify the 'Type' field in an ICMP packet?",
       "choices": [
         {
-          "description": "8 bits",
+          "description": "It manages space on the disk by mapping pages to locations and handling read/write operations.",
           "is_correct": true
         },
         {
-          "description": "16 bits",
+          "description": "It provides user interfaces for data retrieval.",
           "is_correct": false
         },
         {
-          "description": "32 bits",
+          "description": "It ensures high-level transaction processing.",
           "is_correct": false
         },
         {
-          "description": "64 bits",
+          "description": "It directly executes SQL queries without optimization.",
           "is_correct": false
         }
-      ]
+      ],
+      "question": "What is the role of disk space management in a DBMS?"
+    },
+    {
+      "choices": [
+        {
+          "description": "Records are placed in no particular order.",
+          "is_correct": true
+        },
+        {
+          "description": "Records are organized according to a B+ tree structure.",
+          "is_correct": false
+        },
+        {
+          "description": "Records are sorted based on a key value.",
+          "is_correct": false
+        },
+        {
+          "description": "Records are grouped into clusters for efficient retrieval.",
+          "is_correct": false
+        }
+      ],
+      "question": "What is a key characteristic of Unordered Heap Files?"
+    },
+    {
+      "choices": [
+        {
+          "description": "It requires fewer page loads to find a page with free space.",
+          "is_correct": true
+        },
+        {
+          "description": "It increases the number of records that can be stored on a single page.",
+          "is_correct": false
+        },
+        {
+          "description": "It automatically sorts records upon insertion.",
+          "is_correct": false
+        },
+        {
+          "description": "It allows records to be stored across multiple machines.",
+          "is_correct": false
+        }
+      ],
+      "question": "What is the main advantage of using a Page Directory for file storage?"
+    },
+    {
+      "choices": [
+        {
+          "description": "Records are densely packed, requiring updates to IDs if rearranged.",
+          "is_correct": true
+        },
+        {
+          "description": "Records are padded to fit the length of the longest record.",
+          "is_correct": false
+        },
+        {
+          "description": "Each record is separated by a delimiter for easy retrieval.",
+          "is_correct": false
+        },
+        {
+          "description": "All records start with a header containing metadata.",
+          "is_correct": false
+        }
+      ],
+      "question": "In the context of fixed-length records, what does 'packed' imply?"
+    },
+    {
+      "choices": [
+        {
+          "description": "Records are inserted in free space and tracked by a slot directory.",
+          "is_correct": true
+        },
+        {
+          "description": "Records are inserted directly into the slot directory based on their size.",
+          "is_correct": false
+        },
+        {
+          "description": "Records are only inserted in contiguous blocks of free space.",
+          "is_correct": false
+        },
+        {
+          "description": "Records are linked sequentially to form a chain.",
+          "is_correct": false
+        }
+      ],
+      "question": "How are records inserted and managed in a slotted page layout?"
+    },
+    {
+      "choices": [
+        {
+          "description": "A pointer encoding a pair of page ID and location on page.",
+          "is_correct": true
+        },
+        {
+          "description": "A unique identifier for the database file.",
+          "is_correct": false
+        },
+        {
+          "description": "The index value of the record in the overall database.",
+          "is_correct": false
+        },
+        {
+          "description": "The header information of the data page.",
+          "is_correct": false
+        }
+      ],
+      "question": "In a database system, what does the term 'record id' refer to?"
+    },
+    {
+      "choices": [
+        {
+          "description": "They allow easy parsing and separation of fields.",
+          "is_correct": true
+        },
+        {
+          "description": "They increase the data integrity by adding extra checks.",
+          "is_correct": false
+        },
+        {
+          "description": "They enhance the database's query performance.",
+          "is_correct": false
+        },
+        {
+          "description": "They ensure fixed length fields in records.",
+          "is_correct": false
+        }
+      ],
+      "question": "What is the primary advantage of using delimiters in CSV files for variable length records?"
+    },
+    {
+      "choices": [
+        {
+          "description": "They require a scan to access any specific field.",
+          "is_correct": true
+        },
+        {
+          "description": "They allow for direct random access to each field.",
+          "is_correct": false
+        },
+        {
+          "description": "They ensure optimal disk space usage.",
+          "is_correct": false
+        },
+        {
+          "description": "They make it easier to store numeric data types.",
+          "is_correct": false
+        }
+      ],
+      "question": "What is a key disadvantage of using variable length fields without additional structures?"
+    },
+    {
+      "choices": [
+        {
+          "description": "Heap Files",
+          "is_correct": true
+        },
+        {
+          "description": "Sorted Files",
+          "is_correct": false
+        },
+        {
+          "description": "Relational Operators",
+          "is_correct": false
+        },
+        {
+          "description": "Clustered Files",
+          "is_correct": false
+        }
+      ],
+      "question": "In the context of database management, what structure is primarily used to represent and manage a collection of unordered records?"
+    },
+    {
+      "choices": [
+        {
+          "description": "To store information about the database's relations, indexes, and views.",
+          "is_correct": true
+        },
+        {
+          "description": "To increase the graphical user interface performance.",
+          "is_correct": false
+        },
+        {
+          "description": "To reduce the size of the database schema.",
+          "is_correct": false
+        },
+        {
+          "description": "To ensure all database entries are in JSON format.",
+          "is_correct": false
+        }
+      ],
+      "question": "What is one of the main purposes of a database system catalog?"
+    },
+    {
+      "choices": [
+        {
+          "description": "Sorted files require finding the location for the record, leading to higher insertion costs.",
+          "is_correct": true
+        },
+        {
+          "description": "Heap files are slower due to mandatory index updates with each insertion.",
+          "is_correct": false
+        },
+        {
+          "description": "Sorted files use less disk space, reducing the insertion cost.",
+          "is_correct": false
+        },
+        {
+          "description": "Heap files require an exact location for every insertion, increasing costs.",
+          "is_correct": false
+        }
+      ],
+      "question": "How do sorted files differ from heap files in terms of insertion costs?"
     }
   ]
 }
