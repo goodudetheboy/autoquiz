@@ -22,6 +22,8 @@ function switchStrategySettings() {
 
 document.addEventListener("DOMContentLoaded", () => {
   switchStrategySettings();
+
+  setUpNotesWordAndLineCount();
 })
 
 document.getElementById("process-btn").addEventListener("click", function () {
@@ -105,4 +107,21 @@ function validateField(fieldId) {
     }
 }
 
+function setUpNotesWordAndLineCount() {
+    const textarea = document.getElementById("notes-input");
+    const charCount = document.getElementById("notes-stat-char-count");
+    const wordCount = document.getElementById("notes-stat-word-count");
+    const lineCount = document.getElementById("notes-stat-line-count");
 
+    textarea.addEventListener("input", () => {
+        const text = textarea.value.trim();
+
+        const chars = text.length;
+        const words = text.match(/\b\w+\b/g) || [];  // Match words
+        const lines = text.split(/\r\n|\r|\n/); // Split by newlines
+
+        charCount.textContent = chars;
+        wordCount.textContent = words.length;
+        lineCount.textContent = lines.length;
+    });
+}
