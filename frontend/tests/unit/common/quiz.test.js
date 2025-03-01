@@ -1,6 +1,15 @@
-import { createQuiz } from "../../../static/scripts/common/quiz.js";
+import { createQuiz, saveQuiz, getQuiz, getQuizHistory, deleteQuiz, clearQuizzes  } from "../../../static/scripts/common/quiz.js";
 import fs from "fs";
 import { jest } from "@jest/globals"
+
+// Mock localStorage
+global.localStorage = {
+    store: {},
+    getItem: function (key) { return this.store[key] || null; },
+    setItem: function (key, value) { this.store[key] = value.toString(); },
+    removeItem: function (key) { delete this.store[key]; },
+    clear: function () { this.store = {}; }
+};
 
 describe("create_quiz", () => {
   beforeEach(() => {
@@ -41,4 +50,59 @@ describe("create_quiz", () => {
     const requestBody = {}; // Add appropriate request body if needed
     await expect(createQuiz(requestBody)).rejects.toThrow("HTTP error! Status: 500");
   });
+});
+
+
+describe("Quiz Storage Functions", () => {
+    beforeEach(() => {
+        localStorage.clear();
+    });
+
+    test("should save a quiz and add it to history", () => {
+        const quizData = { questions: ["Q1", "Q2"], answers: ["A1", "A2"] };
+        const quizId = saveQuiz("Math Quiz", quizData);
+
+        expect(quizId).toBeDefined();
+        expect(getQuizHistory().length).toBe(1);
+        expect(getQuiz(quizId)).toMatchObject({ name: "Math Quiz", results: quizData });
+    });
+
+    test("should retrieve a saved quiz", () => {
+        const quizData = { questions: ["Q1"], answers: ["A1"] };
+        const quizId = saveQuiz("Science Quiz", quizData);
+
+        const retrievedQuiz = getQuiz(quizId);
+        expect(retrievedQuiz).toMatchObject({ name: "Science Quiz", results: quizData });
+    });
+
+    test("should return null for nonexistent quiz", () => {
+        expect(getQuiz("nonexistent-id")).toBeNull();
+    });
+
+    test("should retrieve quiz history", () => {
+        saveQuiz("Quiz 1", {});
+        saveQuiz("Quiz 2", {});
+
+        const history = getQuizHistory();
+        expect(history.length).toBe(2);
+        expect(history[0]).toHaveProperty("quizId");
+    });
+
+    test("should delete a quiz and remove it from history", () => {
+        const quizId = saveQuiz("History Quiz", {});
+        expect(deleteQuiz(quizId)).toBe(true);
+        expect(getQuiz(quizId)).toBeNull();
+        expect(getQuizHistory().length).toBe(0);
+    });
+
+    test("should return false when deleting a non-existing quiz", () => {
+        expect(deleteQuiz("invalid-id")).toBe(false);
+    });
+
+    test("should clear all quizzes and history", () => {
+        saveQuiz("Quiz A", {});
+        saveQuiz("Quiz B", {});
+        clearQuizzes();
+        expect(getQuizHistory().length).toBe(0);
+    });
 });
