@@ -5,9 +5,7 @@ export async function createQuiz(request_body) {
         headers: {
         "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-            debug_mode: true,
-        })
+        body: JSON.stringify(request_body)
     });
     if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);

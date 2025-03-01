@@ -49,16 +49,34 @@ document.getElementById("generate-quiz").addEventListener("click", async functio
         alert("Something is wrong. Please check all fields in Quiz Settings!");
         return;
     }
+    // Check notes
+    const notes = document.getElementById("notes-input").value.trim();
+    if (!notes) {
+        alert("Please enter some notes before processing.");
+        return;
+    }
+    
+    // Start generation
     const selected_strat = document.getElementById("section-strategy").value;
     var quizData = null;
     try {
-
-        if (selected_strat === "debug") {
+        if (selected_strat == "debug") {
             quizData = await createQuiz({
                 "debug_mode": true,
             });
         }
         
+        if (selected_strat == "static") {
+            const num_section = document.getElementById("static-num-sections").value;
+            const num_quiz_per_section = document.getElementById("static-quizzes-per-section").value;
+            quizData = await createQuiz({
+                "note_content": notes, 
+                "sectioning_strategy": "static_sectioning",
+                "num_section": Number(num_section),
+                "num_quiz_per_section": Number(num_quiz_per_section),
+            })
+        }
+
         if (quizData == null) {
             throw new Error("Can't resolve quizzes even though the requests went through :(");
         }
