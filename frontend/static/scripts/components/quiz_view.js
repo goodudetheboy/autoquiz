@@ -18,8 +18,7 @@ export function renderQuiz(quizId) {
     localStorage.setItem(QUIZ_STORAGE_KEY, quizId);
     console.log(quizData);
     
-    const quizUI = createQuizUI(quizData);
-    quizContainer.appendChild(quizUI);
+    renderQuizToolbar(quizData);
     attachEventListeners(quizData);
     renderQuizQuestions(quizData.results);
 }
@@ -63,13 +62,15 @@ function checkAnswer(choice, item) {
   item.style.pointerEvents = "none";
 }
 
-function createQuizUI(quizData) {
-    const section = document.createElement("section");
-    section.classList.add("quiz-preview");
-    section.innerHTML = `
-        <h3>Quiz Preview</h3>
+function renderQuizToolbar(quizData) {
+    const quizContainer = document.getElementById("quiz-preview"); 
+    quizContainer.innerHTML = `
         <div id="quiz-metadata">
-            <input id="quiz-name" type="text" value="${quizData.name}" />
+            <div id="quiz-name-container">
+                <i class="fas -pen edit-icon"></i>
+                <input id="quiz-name" type="text" value="${quizData.name}" />
+            </div>
+            
             <span id="quiz-date">Created on: ${quizData.time}</span>
         </div>
         <div class="quiz-toolbar">
@@ -88,7 +89,6 @@ function createQuizUI(quizData) {
         <div id="quiz-container"></div>
 
     `;
-    return section;
 }
 
 function attachEventListeners(quizData) {
