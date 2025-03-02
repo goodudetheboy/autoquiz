@@ -75,11 +75,18 @@
 }
 
 #quiz-name {
+    font-weight: bold;
     font-size: 1.2rem;
     background: transparent;
     cursor: pointer;
     outline: none;
+    border: none;
+    padding: 10px;
+}
+
+#quiz-name:hover {
     border: 1px solid #ccc;
+    padding: 9px;
     border-radius: 5px;
 }
 
