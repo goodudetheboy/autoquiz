@@ -3,19 +3,20 @@ import { deleteQuiz, getQuiz, updateQuiz } from "../common/quiz.js";
 const QUIZ_STORAGE_KEY = "lastOpenedQuizId";
 
 export function renderQuiz(quizId) {
+    // Check if exist
+    const quizData = getQuiz(quizId);
+    if (!quizData) {
+        return;
+    }
+
+    // Clear last quiz
     const quizContainer = document.getElementById("quiz-preview"); 
     quizContainer.innerHTML = ""; 
 
-    const quizData = getQuiz(quizId) || {
-        quizId: quizId,
-        name: "Untitled Quiz",
-        time: new Date().toLocaleString(),
-        results: {}
-    };
-
     // Store last opened quiz
     localStorage.setItem(QUIZ_STORAGE_KEY, quizId);
-
+    console.log(quizData);
+    console.log(quizData.time);
     // Do some rendering
     renderQuizToolbar(quizData);
     attachEventListeners(quizData);
@@ -62,6 +63,21 @@ function checkAnswer(choice, item) {
 }
 
 function renderQuizToolbar(quizData) {
+    // Convert to milliseconds
+    const date = new Date(quizData.time * 1000);
+
+    const options = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric', 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit',
+        hour12: true // Set to false for 24-hour format
+    };
+
+    const localTime = date.toLocaleString('en-US', options);
     const quizContainer = document.getElementById("quiz-preview"); 
     quizContainer.innerHTML = `
         <div id="quiz-interface">
@@ -71,7 +87,7 @@ function renderQuizToolbar(quizData) {
                     <input id="quiz-name" type="text" value="${quizData.name}" />
                 </div>
                 
-                <span id="quiz-date">Created on: ${quizData.time}</span>
+                <span id="quiz-date">Created on: ${localTime}</span>
             </div>
             <div class="quiz-toolbar">
                 <button id="save-quiz" title="Save to storage"><i class="fas fa-save"></i></button>

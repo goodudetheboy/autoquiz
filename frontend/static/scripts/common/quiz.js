@@ -35,7 +35,7 @@ export function saveQuiz(name, quizList) {
  * @returns {string} quizId - The same ID if updated, or a new one if created.
  */
 export function updateQuiz(quizId, name, quizList) {
-    const timestamp = new Date().toISOString();
+    const timestamp = Math.floor(Date.now() / 1000);
     let history = JSON.parse(localStorage.getItem("quizHistory")) || [];
     let existingQuiz = JSON.parse(localStorage.getItem(quizId));
 

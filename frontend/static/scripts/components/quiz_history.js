@@ -17,6 +17,21 @@ export function renderQuizHistory() {
     }
 
     quizHistory.forEach(quiz => {
+        // Convert to milliseconds
+        const date = new Date(quiz.time * 1000);
+
+        const options = { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric', 
+            hour: '2-digit', 
+            minute: '2-digit', 
+            second: '2-digit',
+            hour12: true // Set to false for 24-hour format
+        };
+
+        const localTime = date.toLocaleString('en-US', options); 
         const quizItem = document.createElement("div");
         quizItem.classList.add("quiz-item");
         quizItem.dataset.quizId = quiz.quizId;
@@ -26,7 +41,7 @@ export function renderQuizHistory() {
                 <i class="fas fa-file-alt"></i>
                 <div>
                     <strong>${quiz.name}</strong>
-                    <div class="quiz-time">${new Date(quiz.time).toLocaleString()}</div>
+                    <div class="quiz-time">${localTime}</div>
                 </div>
             </div>
             <button class="delete-quiz" data-quiz-id="${quiz.quizId}">
