@@ -1,4 +1,4 @@
-import { createQuiz } from "../../common/quiz.js";
+import { createQuiz, saveQuiz } from "../../common/quiz.js";
 import { renderQuiz } from "../../components/quiz_view.js";
 import { fieldsToValidate, limits } from "./validate.js";
 
@@ -76,8 +76,8 @@ document.getElementById("generate-quiz").addEventListener("click", async functio
         alert("Something happens when requesting quizzes! Please try again later.");
     }
     
-    const quizContainer = document.getElementById("quiz-container");
-    renderQuiz(quizContainer, quizData);
+    const savedQuizId = saveQuiz("Untitled Quiz", quizData);
+    renderQuiz(savedQuizId);
 });
 
 

@@ -26,7 +26,7 @@ export function saveQuiz(name, quizData) {
     const quizId = uuidv4();
     const timestamp = new Date().toISOString();
 
-    const quiz = { name, time: timestamp, results: quizData };
+    const quiz = { name, time: timestamp, results: quizData.results };
     localStorage.setItem(quizId, JSON.stringify(quiz));
 
     const history = JSON.parse(localStorage.getItem("quizHistory")) || [];
