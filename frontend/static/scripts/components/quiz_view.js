@@ -67,7 +67,7 @@ function renderQuizToolbar(quizData) {
     quizContainer.innerHTML = `
         <div id="quiz-interface">
             <div id="quiz-metadata">
-                <div id="quiz-name-container">
+                <div id="quiz-name-container" title="Edit quiz title name">
                     <i class="fas fa-pen edit-icon"></i>
                     <input id="quiz-name" type="text" value="${quizData.name}" />
                 </div>
@@ -101,6 +101,10 @@ function attachEventListeners(quizData) {
     const closeModalBtn = document.querySelector(".close-modal");
     const quizJsonDisplay = document.getElementById("quiz-json");
     const exportModal = document.getElementById("export-modal");
+
+    document.querySelector(".edit-icon").addEventListener("click", () => {
+        document.querySelector("#quiz-name").focus();
+    });
 
     quizNameInput.addEventListener("blur", () => {
         quizData.name = quizNameInput.value;
