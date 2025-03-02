@@ -65,18 +65,20 @@ function checkAnswer(choice, item) {
 function renderQuizToolbar(quizData) {
     const quizContainer = document.getElementById("quiz-preview"); 
     quizContainer.innerHTML = `
-        <div id="quiz-metadata">
-            <div id="quiz-name-container">
-                <i class="fas -pen edit-icon"></i>
-                <input id="quiz-name" type="text" value="${quizData.name}" />
+        <div id="quiz-interface">
+            <div id="quiz-metadata">
+                <div id="quiz-name-container">
+                    <i class="fas fa-pen edit-icon"></i>
+                    <input id="quiz-name" type="text" value="${quizData.name}" />
+                </div>
+                
+                <span id="quiz-date">Created on: ${quizData.time}</span>
             </div>
-            
-            <span id="quiz-date">Created on: ${quizData.time}</span>
-        </div>
-        <div class="quiz-toolbar">
-            <button id="save-quiz" title="Save to storage"><i class="fas fa-save"></i></button>
-            <button id="delete-quiz" title="delete from storage"><i class="fas fa-trash"></i></button>
-            <button id="export-quiz" title="Export to JSON"><i class="fas fa-file-export"></i></button>
+            <div class="quiz-toolbar">
+                <button id="save-quiz" title="Save to storage"><i class="fas fa-save"></i></button>
+                <button id="delete-quiz" title="delete from storage"><i class="fas fa-trash"></i></button>
+                <button id="export-quiz" title="Export to JSON"><i class="fas fa-file-export"></i></button>
+            </div>
         </div>
 
         <div id="export-modal" class="modal">
