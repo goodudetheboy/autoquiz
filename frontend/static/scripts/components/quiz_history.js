@@ -37,7 +37,6 @@ export function renderQuizHistory() {
         // Load quiz on click
         quizItem.addEventListener("click", (event) => {
             if (!event.target.closest(".delete-quiz")) {
-                const quizData = getQuiz(quiz.quizId);
                 renderQuiz(quiz.quizId);
             }
         });
