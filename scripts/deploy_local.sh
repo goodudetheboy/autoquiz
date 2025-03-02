@@ -2,7 +2,7 @@
 
 if [ ! -d "./venv" ]; then
   echo "Environment has not been initialized yet, doing it now"
-  ./scripts/deploy.sh
+  ./scripts/init.sh
 fi
 
 if [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "cygwin" ]]; then
