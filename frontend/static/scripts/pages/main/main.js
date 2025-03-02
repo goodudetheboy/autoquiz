@@ -1,4 +1,4 @@
-import { createQuiz } from "../common/quiz.js";
+import { createQuiz } from "../../common/quiz.js";
 import { renderQuiz } from "./quiz-ui.js";
 import { fieldsToValidate, limits } from "./validate.js";
 
