@@ -1,0 +1,71 @@
+// quiz_history.js (Handles UI interactions with localStorage quizzes)
+import { getQuizHistory, getQuiz, deleteQuiz } from "../common/quiz.js";
+
+// Initialize fake quiz history if not already present
+const fakeQuizzes = [
+    { quizId: "1", name: "Math Quiz", time: Date.now() - 1000000 },
+    { quizId: "2", name: "History Quiz", time: Date.now() - 500000 },
+    { quizId: "3", name: "Science Quiz", time: Date.now() - 200000 },
+    { quizId: "3", name: "Science Quiz", time: Date.now() - 200000 },
+    { quizId: "3", name: "Science Quiz", time: Date.now() - 200000 },
+    { quizId: "3", name: "Science Quiz", time: Date.now() - 200000 },
+    { quizId: "3", name: "Science Quiz", time: Date.now() - 200000 },
+    { quizId: "3", name: "Science Quiz", time: Date.now() - 200000 },
+    { quizId: "3", name: "Science Quiz", time: Date.now() - 200000 },
+    { quizId: "3", name: "Science Quiz", time: Date.now() - 200000 },
+    { quizId: "3", name: "Science Quiz", time: Date.now() - 200000 },
+];
+localStorage.setItem("quizHistory", JSON.stringify(fakeQuizzes));
+fakeQuizzes.forEach(quiz => localStorage.setItem(quiz.quizId, JSON.stringify(quiz)));
+
+// Reference to the quiz list container
+const quizListContainer = document.getElementById("quiz-list");
+
+// Function to render quiz history
+export function renderQuizHistory() {
+    quizListContainer.innerHTML = ""; // Clear existing content
+    const quizHistory = getQuizHistory();
+
+    if (quizHistory.length === 0) {
+        quizListContainer.innerHTML = "<p>No quizzes found.</p>";
+        return;
+    }
+
+    quizHistory.forEach(quiz => {
+        const quizItem = document.createElement("div");
+        quizItem.classList.add("quiz-item");
+        quizItem.dataset.quizId = quiz.quizId;
+
+        quizItem.innerHTML = `
+            <div class="quiz-info">
+                <i class="fas fa-file-alt"></i>
+                <div>
+                    <strong>${quiz.name}</strong>
+                    <div class="quiz-time">${new Date(quiz.time).toLocaleString()}</div>
+                </div>
+            </div>
+            <button class="delete-quiz" data-quiz-id="${quiz.quizId}">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+        `;
+
+        // Load quiz on click
+        quizItem.addEventListener("click", (event) => {
+            if (!event.target.closest(".delete-quiz")) {
+                const quizData = getQuiz(quiz.quizId);
+                console.log("Loading quiz:", quizData); // Placeholder for actual quiz loading
+            }
+        });
+
+        // Delete quiz on button click
+        quizItem.querySelector(".delete-quiz").addEventListener("click", (event) => {
+            event.stopPropagation(); // Prevent triggering the main click
+            const quizId = event.target.closest(".delete-quiz").dataset.quizId;
+            deleteQuiz(quizId);
+            renderQuizHistory();
+        });
+
+        quizListContainer.appendChild(quizItem);
+    });
+}
+

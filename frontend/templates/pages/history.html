@@ -1,12 +1,12 @@
 {% extends "index.html" %}
 
 {% block head %}
-<link rel="stylesheet" href="../static/styles/pages/main.css">
+<link rel="stylesheet" href="../static/styles/pages/history.css">
 {% endblock %}
 
 {% block content %}
 <div class="left-panel">
-
+    {% include 'components/quiz_history.html' %}
 </div>
 <div class="right-panel">
     {% include 'components/quiz_view.html' %}
@@ -14,5 +14,5 @@
 {% endblock %}
 
 {% block scripts %}
-<script type="module" src="../static/scripts/pages/main/main.js"></script>
+<script type="module" src="../static/scripts/pages/history.js"></script>
 {% endblock %}

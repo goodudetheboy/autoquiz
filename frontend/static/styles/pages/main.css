@@ -1,3 +1,10 @@
+/* Left Panel */
+.left-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 /* Sections Styling */
 .upload-section, .settings, .quiz-preview {
     background: white;
