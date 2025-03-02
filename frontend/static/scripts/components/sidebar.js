@@ -43,5 +43,18 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 document.getElementById("toggle-sidebar").addEventListener("click", function () {
-    document.querySelector(".sidebar").classList.toggle("collapsed");
+    const sidebar = document.querySelector(".sidebar");
+    const isCollapsed = sidebar.classList.toggle("collapsed");
+    localStorage.setItem("sidebarCollapsed", isCollapsed);
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const sidebar = document.querySelector(".sidebar");
+    if (localStorage.getItem("sidebarCollapsed") === "true") {
+        sidebar.classList.remove("active");
+        sidebar.classList.add("collapsed");
+    } else if(localStorage.getItem("sidebarCollapsed") === "false") {
+        sidebar.classList.add("active");
+        sidebar.classList.remove("collapsed");
+    }
 });
