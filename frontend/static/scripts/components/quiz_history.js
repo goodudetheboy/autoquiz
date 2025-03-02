@@ -1,5 +1,6 @@
 // quiz_history.js (Handles UI interactions with localStorage quizzes)
 import { getQuizHistory, getQuiz, deleteQuiz } from "../common/quiz.js";
+import { renderQuiz } from "./quiz_view.js";
 
 
 // Reference to the quiz list container
@@ -37,7 +38,7 @@ export function renderQuizHistory() {
         quizItem.addEventListener("click", (event) => {
             if (!event.target.closest(".delete-quiz")) {
                 const quizData = getQuiz(quiz.quizId);
-                console.log("Loading quiz:", quizData); // Placeholder for actual quiz loading
+                renderQuiz(quiz.quizId);
             }
         });
 
