@@ -1,5 +1,5 @@
 import { createQuiz } from "../../common/quiz.js";
-import { renderQuiz } from "./quiz-ui.js";
+import { renderQuiz } from "../../components/quiz_view.js";
 import { fieldsToValidate, limits } from "./validate.js";
 
 function switchStrategySettings() {

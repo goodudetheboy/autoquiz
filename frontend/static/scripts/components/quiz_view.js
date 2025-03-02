@@ -1,7 +1,6 @@
 export function renderQuiz(quizContainer, quizData) {
     quizContainer.innerHTML = "";
     //   const quizContainer = document.getElementById("quiz-container");
-    const sortedQuestions = quizData.results.sort(() => Math.random() - 0.5);
     quizData.results.forEach((quiz, _) => {
         const quizElement = document.createElement("div");
         quizElement.classList.add("quiz-question");
