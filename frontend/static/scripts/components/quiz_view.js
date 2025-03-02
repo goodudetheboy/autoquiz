@@ -1,31 +1,30 @@
-import { saveQuiz, deleteQuiz, getQuiz } from "../common/quiz.js";
+import { deleteQuiz, getQuiz, updateQuiz } from "../common/quiz.js";
 
 const QUIZ_STORAGE_KEY = "lastOpenedQuizId";
 
 export function renderQuiz(quizId) {
     const quizContainer = document.getElementById("quiz-preview"); 
-    console.log("ehlo");
-    console.log(quizContainer);
     quizContainer.innerHTML = ""; 
 
     const quizData = getQuiz(quizId) || {
-        id: quizId,
+        quizId: quizId,
         name: "Untitled Quiz",
         time: new Date().toLocaleString(),
         results: {}
     };
+
     // Store last opened quiz
     localStorage.setItem(QUIZ_STORAGE_KEY, quizId);
-    console.log(quizData);
-    
+
+    // Do some rendering
     renderQuizToolbar(quizData);
     attachEventListeners(quizData);
     renderQuizQuestions(quizData.results);
 }
 
-function renderQuizQuestions(quizResults) {
+function renderQuizQuestions(quizList) {
     const quizContainer = document.getElementById("quiz-container");
-    quizResults.forEach((quiz, _) => {
+    quizList.forEach((quiz, _) => {
         const quizElement = document.createElement("div");
         quizElement.classList.add("quiz-question");
         
@@ -111,12 +110,12 @@ function attachEventListeners(quizData) {
     });
 
     saveQuizBtn.addEventListener("click", () => {
-        saveQuiz(quizData);
+        updateQuiz(quizData.quizId, quizData.name, quizData.results);
         alert("Quiz saved!");
     });
 
     deleteQuizBtn.addEventListener("click", () => {
-        deleteQuiz(quizData.id);
+        deleteQuiz(quizData.quizId);
         alert("Quiz deleted!");
         localStorage.deleteItem(QUIZ_STORAGE_KEY); // Clear last opened quiz
         document.querySelector(".quiz-preview").remove();
@@ -131,3 +130,10 @@ function attachEventListeners(quizData) {
         exportModal.style.display = "none";
     });
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    const lastQuizId = localStorage.getItem(QUIZ_STORAGE_KEY);
+    if (lastQuizId) {
+        renderQuiz(lastQuizId);
+    }
+});

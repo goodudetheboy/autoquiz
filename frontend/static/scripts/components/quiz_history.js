@@ -1,22 +1,6 @@
 // quiz_history.js (Handles UI interactions with localStorage quizzes)
 import { getQuizHistory, getQuiz, deleteQuiz } from "../common/quiz.js";
 
-// Initialize fake quiz history if not already present
-const fakeQuizzes = [
-    { quizId: "1", name: "Math Quiz", time: Date.now() - 1000000 },
-    { quizId: "2", name: "History Quiz", time: Date.now() - 500000 },
-    { quizId: "3", name: "Science Quiz", time: Date.now() - 200000 },
-    { quizId: "3", name: "Science Quiz", time: Date.now() - 200000 },
-    { quizId: "3", name: "Science Quiz", time: Date.now() - 200000 },
-    { quizId: "3", name: "Science Quiz", time: Date.now() - 200000 },
-    { quizId: "3", name: "Science Quiz", time: Date.now() - 200000 },
-    { quizId: "3", name: "Science Quiz", time: Date.now() - 200000 },
-    { quizId: "3", name: "Science Quiz", time: Date.now() - 200000 },
-    { quizId: "3", name: "Science Quiz", time: Date.now() - 200000 },
-    { quizId: "3", name: "Science Quiz", time: Date.now() - 200000 },
-];
-localStorage.setItem("quizHistory", JSON.stringify(fakeQuizzes));
-fakeQuizzes.forEach(quiz => localStorage.setItem(quiz.quizId, JSON.stringify(quiz)));
 
 // Reference to the quiz list container
 const quizListContainer = document.getElementById("quiz-list");

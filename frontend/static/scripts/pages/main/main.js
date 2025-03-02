@@ -49,7 +49,7 @@ document.getElementById("generate-quiz").addEventListener("click", async functio
     }
    
     // Start generation
-    var quizData = null;
+    let quizData = null;
     try {
         if (selected_strat == "debug") {
             quizData = await createQuiz({
@@ -76,8 +76,12 @@ document.getElementById("generate-quiz").addEventListener("click", async functio
         alert("Something happens when requesting quizzes! Please try again later.");
     }
     
-    const savedQuizId = saveQuiz("Untitled Quiz", quizData);
-    renderQuiz(savedQuizId);
+    if (!quizData.results) {
+        alert("Unexpected error happens. No quiz list found in response :(")
+    } else {
+        const savedQuizId = saveQuiz("Untitled Quiz", quizData.results);
+        renderQuiz(savedQuizId);
+    }
 });
 
 

@@ -105,4 +105,26 @@ describe("Quiz Storage Functions", () => {
         clearQuizzes();
         expect(getQuizHistory().length).toBe(0);
     });
+
+    test("should update an existing quiz", () => {
+        const quizData = { results: { questions: ["Q1"], answers: ["A1"] } };
+        const quizId = saveQuiz("Initial Quiz", quizData);
+
+        const updatedData = { results: { questions: ["Q1", "Q2"], answers: ["A1", "A2"] } };
+        const updatedQuizId = updateQuiz(quizId, "Updated Quiz", updatedData);
+
+        expect(updatedQuizId).toBe(quizId); // Same quiz ID
+        expect(getQuiz(quizId)).toMatchObject({ name: "Updated Quiz", results: updatedData.results });
+
+        const history = getQuizHistory();
+        expect(history.length).toBe(1); // No new entry
+        expect(history[0].name).toBe("Updated Quiz"); // History reflects the update
+    });
+
+    test("should create a new quiz if quizId doesn't exist", () => {
+        const newQuizId = updateQuiz("nonexistent-id", "New Quiz", { results: {} });
+
+        expect(getQuiz(newQuizId)).toMatchObject({ name: "New Quiz", results: {} });
+        expect(getQuizHistory().length).toBe(1);
+    });
 });

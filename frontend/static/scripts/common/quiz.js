@@ -19,20 +19,44 @@ export async function createQuiz(request_body) {
 /**
  * Saves a quiz to localStorage and updates quiz history.
  * @param {string} name - Name of the quiz.
- * @param {Object} quizData - The quiz object containing questions and answers.
+ * @param {Object} quizList - The quiz object containing questions and answers.
  * @returns {string} quizId - The unique ID of the saved quiz.
  */
-export function saveQuiz(name, quizData) {
+export function saveQuiz(name, quizList) {
     const quizId = uuidv4();
+    return updateQuiz(quizId, name, quizList);
+}
+
+/**
+ * Updates an existing quiz in localStorage. If quizId doesn't exist, saves as a new quiz.
+ * @param {string} quizId - The ID of the quiz to update.
+ * @param {string} name - New name for the quiz.
+ * @param {Object} quizList - Updated quiz object containing questions and answers.
+ * @returns {string} quizId - The same ID if updated, or a new one if created.
+ */
+export function updateQuiz(quizId, name, quizList) {
     const timestamp = new Date().toISOString();
+    let history = JSON.parse(localStorage.getItem("quizHistory")) || [];
+    let existingQuiz = JSON.parse(localStorage.getItem(quizId));
 
-    const quiz = { name, time: timestamp, results: quizData.results };
-    localStorage.setItem(quizId, JSON.stringify(quiz));
-
-    const history = JSON.parse(localStorage.getItem("quizHistory")) || [];
-    history.push({ name, time: timestamp, quizId });
+    if (existingQuiz) {
+        // Update existing quiz
+        existingQuiz.quizId = quizId;
+        existingQuiz.name = name;
+        existingQuiz.time = timestamp;
+        existingQuiz.results = quizList;
+        localStorage.setItem(quizId, JSON.stringify(existingQuiz));
+        
+        // Update history entry
+        history = history.map((entry) => (entry.quizId === quizId ? { ...entry, name, time: timestamp } : entry));
+    } else {
+        // Save as new quiz
+        existingQuiz = { name, time: timestamp, results: quizList, quizId };
+        localStorage.setItem(quizId, JSON.stringify(existingQuiz));
+        history.push({ name, time: timestamp, quizId });
+    }
+    
     localStorage.setItem("quizHistory", JSON.stringify(history));
-
     return quizId;
 }
 
