@@ -24,8 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
   switchStrategySettings();
 
   setUpNotesWordAndLineCount();
-})
 
+})
 
 document.getElementById("toggle-sidebar").addEventListener("click", function () {
     document.querySelector(".sidebar").classList.toggle("collapsed");

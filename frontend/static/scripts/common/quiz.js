@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from "https://cdn.skypack.dev/uuid";
 
 export async function createQuiz(request_body) {
     const response = await fetch(`/api/quiz/create`, {
