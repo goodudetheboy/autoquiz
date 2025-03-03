@@ -133,8 +133,9 @@ function attachEventListeners(quizData) {
     deleteQuizBtn.addEventListener("click", () => {
         deleteQuiz(quizData.quizId);
         alert("Quiz deleted!");
-        localStorage.deleteItem(QUIZ_STORAGE_KEY); // Clear last opened quiz
-        document.querySelector(".quiz-preview").remove();
+        localStorage.removeItem(QUIZ_STORAGE_KEY); // Clear last opened quiz
+        const quizContainer = document.getElementById("quiz-preview"); 
+        quizContainer.innerHTML = "<h3>Quiz Preview<h3>"; 
     });
 
     exportQuizBtn.addEventListener("click", () => {
