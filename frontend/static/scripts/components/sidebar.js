@@ -14,15 +14,15 @@ document.addEventListener("DOMContentLoaded", function() {
                 case 'home':
                     window.location.href = '/';  // Assuming home page is '/'
                     break;
-                case 'upload notes':
-                    window.location.href = '/upload';  // Update the path as needed
-                    break;
-                case 'sectioning settings':
-                    window.location.href = '/settings/sectioning';  // Update the path as needed
-                    break;
-                case 'quiz settings':
-                    window.location.href = '/settings/quiz';  // Update the path as needed
-                    break;
+                // case 'upload notes':
+                //     window.location.href = '/upload';  // Update the path as needed
+                //     break;
+                // case 'sectioning settings':
+                //     window.location.href = '/settings/sectioning';  // Update the path as needed
+                //     break;
+                // case 'quiz settings':
+                //     window.location.href = '/settings/quiz';  // Update the path as needed
+                //     break;
                 case 'history':
                     window.location.href = '/history';  // Assuming history page is '/history'
                     break;
