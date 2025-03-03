@@ -84,6 +84,12 @@ button:hover {
     background: #2980B9;
 }
 
+button:disabled {
+    background-color: #ccc;  /* Light gray background */
+    color: #777;             /* Dark gray text */
+    cursor: not-allowed;
+}
+
 /* Responsive Design */
 @media screen and (max-width: 900px) {
     .main-content {

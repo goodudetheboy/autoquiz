@@ -10,9 +10,7 @@ quiz_bp = Blueprint("main", __name__)
 @quiz_bp.route("/api/quiz/create", methods=["POST"])
 def post_create_quiz():
     json_data = request.get_json()
-    print(json_data)
     if "debug_mode" in json_data:
-        print(os.getcwd())
         with open("./api/data/debug_mode_multiple_choice_questions.json", "r", encoding="utf-8") as f:
             sample_questions = json.load(f)
         

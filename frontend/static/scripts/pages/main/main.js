@@ -33,21 +33,25 @@ document.getElementById("section-strategy").addEventListener("change", switchStr
 // Validate before generating the quiz
 document.getElementById("generate-quiz").addEventListener("click", async function (event) {
     const selected_strat = document.getElementById("section-strategy").value;
-    
+    // Check notes
+    const notes = document.getElementById("notes-input").value.trim();
     if (selected_strat !== "debug") {
         if (!validateQuizInputs()) {
             event.preventDefault();
             alert("Something is wrong. Please check all fields in Quiz Settings!");
             return;
         }
-        // Check notes
-        const notes = document.getElementById("notes-input").value.trim();
+
         if (!notes) {
             alert("Please enter some notes before processing.");
             return;
         }
     }
-   
+
+
+    // Start generating quiz UI
+    toggleGeneratingQuiz(true);
+
     // Start generation
     let quizData = null;
     try {
@@ -82,9 +86,73 @@ document.getElementById("generate-quiz").addEventListener("click", async functio
         const savedQuizId = saveQuiz("Untitled Quiz", quizData.results);
         renderQuiz(savedQuizId);
     }
+
+    // toggleGeneratingQuiz(false);
 });
 
+/** Progress bar functions */
+function startProgressBar(duration, textList) {
+    let progress = 0;
+    const step = 100 / duration; // Update progress by a certain step each second
+    let textIndex = 0;
 
+    // Set the initial text
+    updateRunningText(textList[textIndex]);
+
+    // Update progress bar every second
+    const progressInterval = setInterval(function() {
+        if (progress >= 90) {
+            clearInterval(progressInterval);
+        } else {
+            progress += step;
+            
+            // Update progressBar UI
+            const progressBar = document.getElementById("progress-bar");
+            progressBar.style.width = `${Math.min(progress, 90)}%`;
+            
+             
+            // Update running text
+            const newTextIndex = Math.floor(progress / (100 / textList.length));
+            if (newTextIndex !== textIndex) {
+                textIndex = newTextIndex;
+                updateRunningText(textList[textIndex]);
+            }
+        }
+    }, 1000);
+
+    return progressInterval;
+}
+
+function updateRunningText(newText) {
+    const runningText = document.getElementById("running-text");
+    runningText.textContent = newText;
+}
+
+function endProgressBar(progressInterval) {
+    // Make sure it reaches 100% after the fetch
+    const progressBar = document.getElementById("progress-bar");
+    progressBar.style.width = '100%';
+    clearInterval(progressInterval);
+    const runningText = document.getElementById("running-text");
+    runningText.textContent = "Completed!";
+}
+
+function toggleGeneratingQuiz(isGenerating) {
+    const generateQuizButton = document.getElementById("generate-quiz");
+    if (isGenerating) {
+        // Start progress bar
+        const runningTextList = ["Running", "Walking", "swimming"];
+        const progressInterval = startProgressBar(10, runningTextList);;
+        
+        // Disable button
+        generateQuizButton.disabled = true;
+        generateQuizButton.innerText = "Generating Quiz...";
+    } else {
+        endProgressBar();
+        generateQuizButton.disabled = false;
+        generateQuizButton.innerText = "Generate Quiz";
+    }
+}
 
 // Attach event listeners for real-time validation
 Object.values(fieldsToValidate).forEach(fieldId => {
