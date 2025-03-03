@@ -24,8 +24,13 @@ export function renderQuiz(quizId) {
 }
 
 function renderQuizQuestions(quizList) {
+    // Delete old quiz
     const quizContainer = document.getElementById("quiz-container");
-    quizList.forEach((quiz, _) => {
+    quizContainer.innerHTML = "";
+    
+    // Randomize quiz question order
+    const randomQuizList = quizList.sort(() => Math.random() - 0.5);
+    randomQuizList.forEach((quiz, _) => {
         const quizElement = document.createElement("div");
         quizElement.classList.add("quiz-question");
         
@@ -93,6 +98,7 @@ function renderQuizToolbar(quizData) {
                 <button id="save-quiz" title="Save to storage"><i class="fas fa-save"></i></button>
                 <button id="delete-quiz" title="delete from storage"><i class="fas fa-trash"></i></button>
                 <button id="export-quiz" title="Export to JSON"><i class="fas fa-file-export"></i></button>
+                <button id="shuffle-quiz" title="Shuffle Questions"><i class="fas fa-shuffle"></i></button>
             </div>
         </div>
 
@@ -113,6 +119,7 @@ function attachEventListeners(quizData) {
     const saveQuizBtn = document.getElementById("save-quiz");
     const deleteQuizBtn = document.getElementById("delete-quiz");
     const exportQuizBtn = document.getElementById("export-quiz");
+    const shuffleQuizBtn = document.getElementById("shuffle-quiz");
     const closeModalBtn = document.querySelector(".close-modal");
     const quizJsonDisplay = document.getElementById("quiz-json");
     const exportModal = document.getElementById("export-modal");
@@ -142,6 +149,10 @@ function attachEventListeners(quizData) {
         quizJsonDisplay.textContent = JSON.stringify(quizData.results, null, 2);
         exportModal.style.display = "block";
     });
+
+    shuffleQuizBtn.addEventListener("click", () => {
+        renderQuizQuestions(quizData.results);
+    })
 
     closeModalBtn.addEventListener("click", () => {
         exportModal.style.display = "none";
