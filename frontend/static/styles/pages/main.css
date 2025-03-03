@@ -18,8 +18,8 @@
 
 /* Upload section styling */
 .upload-section textarea {
-		height: 25vh;
-		resize: vertical;
+    height: 25vh;
+    resize: vertical;
 }
 
 /* Note stats section */
@@ -51,7 +51,7 @@
 }
 
 /* Progress bar */
-.progress-container {
+#progress-container {
     width: 100%;
     height: 5px;
     background-color: #e0e0e0;

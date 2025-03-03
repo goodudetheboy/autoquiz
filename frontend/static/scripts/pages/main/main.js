@@ -48,6 +48,17 @@ document.getElementById("generate-quiz").addEventListener("click", async functio
         }
     }
 
+    // Start progress bar
+    const runningTextList = [
+        "Preparing your note for processing...",
+        "Analyzing the sections based on your chosen strategy...",
+        "Segmenting the content into manageable sections...",
+        "Identifying key concepts for quiz generation...",
+        "Creating questions from the sections...",
+        "Finalizing your quiz...",
+    ];
+
+    const progressInterval = startProgressBar(120, runningTextList);
 
     // Start generating quiz UI
     toggleGeneratingQuiz(true);
@@ -87,7 +98,8 @@ document.getElementById("generate-quiz").addEventListener("click", async functio
         renderQuiz(savedQuizId);
     }
 
-    // toggleGeneratingQuiz(false);
+    endProgressBar(progressInterval);
+    toggleGeneratingQuiz(false);
 });
 
 /** Progress bar functions */
@@ -95,6 +107,10 @@ function startProgressBar(duration, textList) {
     let progress = 0;
     const step = 100 / duration; // Update progress by a certain step each second
     let textIndex = 0;
+
+    // Turning on progress bar
+    const progressContainer = document.getElementById("progress-container");
+    progressContainer.style.display = "inline";
 
     // Set the initial text
     updateRunningText(textList[textIndex]);
@@ -140,15 +156,11 @@ function endProgressBar(progressInterval) {
 function toggleGeneratingQuiz(isGenerating) {
     const generateQuizButton = document.getElementById("generate-quiz");
     if (isGenerating) {
-        // Start progress bar
-        const runningTextList = ["Running", "Walking", "swimming"];
-        const progressInterval = startProgressBar(10, runningTextList);;
-        
         // Disable button
         generateQuizButton.disabled = true;
         generateQuizButton.innerText = "Generating Quiz...";
     } else {
-        endProgressBar();
+        // Enable button
         generateQuizButton.disabled = false;
         generateQuizButton.innerText = "Generate Quiz";
     }
