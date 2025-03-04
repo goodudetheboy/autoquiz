@@ -30,6 +30,8 @@
 
 - Add origin and explanation for why a choice is correct.
 
+- Add quiz combinations from different quiz set to make like a pseudo exam sort of. You can do this on frontend.
+
 ## API Documentation
 
 ### **Base URL**
