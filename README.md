@@ -18,6 +18,8 @@
 
 - One optimization technique I think up of while shitting: Instead of separating context in between generation of sections, maybe we should also add a compounding summary after each of generation. For example, let's say we generate quiz for 10 sections. Instead of prompting to generate only the questions for section 1, we can also prompt to generate a quick overview of the section, which we can also add to generating questions for section 2. The cycle repeats.
 
+- For static sectioning, I think I should also include from which note section does it come from also. Maybe not useful in the user perspective, but it might be useful for me, the devs, to see if any funny tomfoolery is going on.
+
 ## API Documentation
 
 ### **Base URL**
