@@ -28,6 +28,8 @@
 
 - We can also have a difficulty setting too. Maybe for easy we can prompt "Make sure that the answer is easily noticeable" and for very difficult we can prompt "Choices must be make intentionally vague and might contain multiple components that differ in only one"
 
+- Add origin and explanation for why a choice is correct.
+
 ## API Documentation
 
 ### **Base URL**
