@@ -20,6 +20,8 @@
 
 - For static sectioning, I think I should also include from which note section does it come from also. Maybe not useful in the user perspective, but it might be useful for me, the devs, to see if any funny tomfoolery is going on.
 
+- Add a "Session" that is a quiz interface with more details and shit using the generated quiz. A Session would have more functionality like gradings and mistakes and all that, while Quiz is just a template for a Session.
+
 ## API Documentation
 
 ### **Base URL**
