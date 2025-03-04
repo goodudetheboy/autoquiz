@@ -1,5 +1,20 @@
 # autoquiz
 
+## Feedback
+- The generated quiz sometimes uses too specific examples in the notes. The example makes sense in the context of reading the notes, but loses meaning when standalone in the questions
+  For example:
+    ```
+    Which page is read twice in the 'Repeated Scan' operation following a reset, as per the study note data?
+
+    Page 2
+    Page 5
+    Page 4
+    Page 1
+    ```
+
+    I might want to restrict the quiz question to be more abstract and focus more on concepts. Maybe I can give another settings for the users to tweak their own questions.
+
+
 ## API Documentation
 
 ### **Base URL**
