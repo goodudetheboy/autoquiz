@@ -22,6 +22,8 @@
 
 - Add a "Session" that is a quiz interface with more details and shit using the generated quiz. A Session would have more functionality like gradings and mistakes and all that, while Quiz is just a template for a Session.
 
+- Add the ability to fix quiz questions answer on-the-fly too
+
 ## API Documentation
 
 ### **Base URL**
