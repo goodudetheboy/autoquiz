@@ -26,6 +26,8 @@
 
 - Inspired by external merge sort, what if we also offer section condensing using this technique? See CSC 463 6 Sorting and Hashing.
 
+- We can also have a difficulty setting too. Maybe for easy we can prompt "Make sure that the answer is easily noticeable" and for very difficult we can prompt "Choices must be make intentionally vague and might contain multiple components that differ in only one"
+
 ## API Documentation
 
 ### **Base URL**
