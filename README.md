@@ -14,6 +14,9 @@
 
     I might want to restrict the quiz question to be more abstract and focus more on concepts. Maybe I can give another settings for the users to tweak their own questions.
 
+- It might also be a good idea to have one batch be focused on concepts and one batch be focused on examples. That way we have the best of both worlds.
+
+- One optimization technique I think up of while shitting: Instead of separating context in between generation of sections, maybe we should also add a compounding summary after each of generation. For example, let's say we generate quiz for 10 sections. Instead of prompting to generate only the questions for section 1, we can also prompt to generate a quick overview of the section, which we can also add to generating questions for section 2. The cycle repeats.
 
 ## API Documentation
 
