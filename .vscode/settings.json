@@ -12,5 +12,9 @@
     "[css]": {
         "editor.tabSize": 4,
         "editor.insertSpaces": true
-    }
+    },
+    "[md]": {
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true
+    },
 }
