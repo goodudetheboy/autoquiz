@@ -24,6 +24,8 @@
 
 - Add the ability to fix quiz questions answer on-the-fly too
 
+- Inspired by external merge sort, what if we also offer section condensing using this technique? See CSC 463 6 Sorting and Hashing.
+
 ## API Documentation
 
 ### **Base URL**
