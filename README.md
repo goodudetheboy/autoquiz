@@ -1,6 +1,7 @@
 # autoquiz
 
 ## Feedback
+- Gateway Timeout 504 for when deploying into real environment. Either make requests faster or implement another quiz creation infrastructure.
 - The generated quiz sometimes uses too specific examples in the notes. The example makes sense in the context of reading the notes, but loses meaning when standalone in the questions
   For example:
     ```
