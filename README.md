@@ -1,5 +1,37 @@
 # autoquiz
 
+## Feedback
+- The generated quiz sometimes uses too specific examples in the notes. The example makes sense in the context of reading the notes, but loses meaning when standalone in the questions
+  For example:
+    ```
+    Which page is read twice in the 'Repeated Scan' operation following a reset, as per the study note data?
+
+    Page 2
+    Page 5
+    Page 4
+    Page 1
+    ```
+
+    I might want to restrict the quiz question to be more abstract and focus more on concepts. Maybe I can give another settings for the users to tweak their own questions.
+
+- It might also be a good idea to have one batch be focused on concepts and one batch be focused on examples. That way we have the best of both worlds.
+
+- One optimization technique I think up of while shitting: Instead of separating context in between generation of sections, maybe we should also add a compounding summary after each of generation. For example, let's say we generate quiz for 10 sections. Instead of prompting to generate only the questions for section 1, we can also prompt to generate a quick overview of the section, which we can also add to generating questions for section 2. The cycle repeats.
+
+- For static sectioning, I think I should also include from which note section does it come from also. Maybe not useful in the user perspective, but it might be useful for me, the devs, to see if any funny tomfoolery is going on.
+
+- Add a "Session" that is a quiz interface with more details and shit using the generated quiz. A Session would have more functionality like gradings and mistakes and all that, while Quiz is just a template for a Session.
+
+- Add the ability to fix quiz questions answer on-the-fly too
+
+- Inspired by external merge sort, what if we also offer section condensing using this technique? See CSC 463 6 Sorting and Hashing.
+
+- We can also have a difficulty setting too. Maybe for easy we can prompt "Make sure that the answer is easily noticeable" and for very difficult we can prompt "Choices must be make intentionally vague and might contain multiple components that differ in only one"
+
+- Add origin and explanation for why a choice is correct.
+
+- Add quiz combinations from different quiz set to make like a pseudo exam sort of. You can do this on frontend.
+
 ## API Documentation
 
 ### **Base URL**
@@ -71,6 +103,7 @@ strategy.
 
 ```json
 {
+  "debug_mode": "<true> special use for debugging, will return 5 valid MCQ questions. This overrides all other settings",
   "note_content": "<str> Content of a note the user wants to create quiz out of.",
   "sectioning_strategy": "<'static_sectioning'>The desired sectioning strategy to split the note_content for processing. Currently supports 'static_sectioning'.",
   "num_section": "<int> The number of sections by which the quiz will be split up.",

@@ -1,0 +1,109 @@
+{
+  "results": [
+    {
+      "question": "What is the primary function of the Internet Control Message Protocol (ICMP)?",
+      "choices": [
+        {
+          "description": "To communicate issues in network transmissions to the source",
+          "is_correct": true
+        },
+        {
+          "description": "To establish secure connections between devices",
+          "is_correct": false
+        },
+        {
+          "description": "To provide high-speed data transfer",
+          "is_correct": false
+        },
+        {
+          "description": "To route data through the internet using IP addresses",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "What type of message is sent by the 'ping' command?",
+      "choices": [
+        {
+          "description": "ICMP Echo Request",
+          "is_correct": true
+        },
+        {
+          "description": "TCP SYN Packet",
+          "is_correct": false
+        },
+        {
+          "description": "UDP Datagram",
+          "is_correct": false
+        },
+        {
+          "description": "IP Header Information",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "What mechanism does traceroute use to identify the path packets take across the network?",
+      "choices": [
+        {
+          "description": "Manipulation of the TTL (Time To Live) field",
+          "is_correct": true
+        },
+        {
+          "description": "Analysis of data payloads",
+          "is_correct": false
+        },
+        {
+          "description": "Encryption of packet headers",
+          "is_correct": false
+        },
+        {
+          "description": "Verification of packet checksums",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "Which tool allows testing of port connectivity at the transport layer on Windows?",
+      "choices": [
+        {
+          "description": "Test-NetConnection",
+          "is_correct": true
+        },
+        {
+          "description": "nslookup",
+          "is_correct": false
+        },
+        {
+          "description": "netcat",
+          "is_correct": false
+        },
+        {
+          "description": "ping",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "How many bits are used to specify the 'Type' field in an ICMP packet?",
+      "choices": [
+        {
+          "description": "8 bits",
+          "is_correct": true
+        },
+        {
+          "description": "16 bits",
+          "is_correct": false
+        },
+        {
+          "description": "32 bits",
+          "is_correct": false
+        },
+        {
+          "description": "64 bits",
+          "is_correct": false
+        }
+      ]
+    }
+  ]
+}

@@ -39,5 +39,20 @@ class QuizAPITestCase(unittest.TestCase):
             )
     
     # TODO: Implement error handling for POST /api/quiz/create
+
+    def test_post_quiz_create_sample_for_debug(self):
+        response = self.client.post(
+            "api/quiz/create",
+            json={
+                "debug_mode": True,
+            }
+        )
+        with open("./api/data/debug_mode_multiple_choice_questions.json", "r", encoding="utf-8") as f:
+            expected_questions = json.loads(f.read())
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.json,
+            expected_questions
+        )
 if __name__ == "__main__":
     unittest.main()
