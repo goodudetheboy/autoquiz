@@ -1,6 +1,31 @@
-# autoquiz
+# AutoQuiz
 
-## Feedback
+> **⚠️ THIS IS THE LEGACY FLASK VERSION**
+>
+> **The active development has moved to the Next.js version.**
+>
+> 👉 **[Go to Next.js Version (autoquiz-next/)](autoquiz-next/README.md)** 👈
+
+---
+
+## About This Repository
+
+This repository contains **two versions** of AutoQuiz:
+
+1. **[Next.js Version](autoquiz-next/)** ⭐ **ACTIVE** - Modern TypeScript/React implementation
+2. **Legacy Flask Version** (this directory + `legacy-flask/`) - Original Python implementation
+
+**For new users:** Please use the [Next.js version](autoquiz-next/).
+
+**For developers:** All new development should focus on the [Next.js version](autoquiz-next/). See [MIGRATION.md](MIGRATION.md) for details about the migration.
+
+---
+
+## Legacy Flask Version (Reference Only)
+
+This is the original Flask/Python implementation, kept for reference and backward compatibility.
+
+### Feedback & Ideas (Historical)
 - Gateway Timeout 504 for when deploying into real environment. Either make requests faster or implement another quiz creation infrastructure.
 - The generated quiz sometimes uses too specific examples in the notes. The example makes sense in the context of reading the notes, but loses meaning when standalone in the questions
   For example:

@@ -180,3 +180,6 @@ autoquiz-next/node_modules/
 autoquiz-next/.env*.local
 autoquiz-next/.vercel
 autoquiz-next/.turbo
+
+# Legacy Flask frontend (kept in legacy-flask/)
+frontend/
