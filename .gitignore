@@ -172,3 +172,11 @@ cython_debug/
 
 # Claude Code folder
 .claude/
+
+# Next.js (autoquiz-next)
+autoquiz-next/.next/
+autoquiz-next/out/
+autoquiz-next/node_modules/
+autoquiz-next/.env*.local
+autoquiz-next/.vercel
+autoquiz-next/.turbo

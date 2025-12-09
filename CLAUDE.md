@@ -6,9 +6,50 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 AutoQuiz is a full-stack web application that automatically generates multiple-choice quiz questions from study notes using OpenAI's GPT-4. The application takes plain text notes from students and generates contextual quizzes by sectioning the content and using AI to create relevant questions.
 
+**IMPORTANT: This repository contains TWO versions of the application:**
+
+1. **Legacy Flask Version** (root directory) - Original Python/Flask implementation
+2. **Next.js Version** (autoquiz-next/) - Modern TypeScript/React implementation ⭐ **PRIMARY VERSION**
+
+**When working on this codebase, default to the Next.js version unless specifically asked to work on the Flask version.**
+
 ## Architecture
 
-### Three-Layer Architecture
+### Next.js Version (autoquiz-next/) - PRIMARY
+
+**Modern full-stack architecture using Next.js App Router:**
+
+1. **Frontend** (`src/app/`): React components with Next.js App Router
+   - `page.tsx`: Main quiz creation page
+   - `history/page.tsx`: Quiz history management
+   - `layout.tsx`: Root layout with Toaster
+
+2. **API Layer** (`src/app/api/`): Next.js API routes
+   - `quiz/create/route.ts`: POST endpoint for quiz generation
+
+3. **Components** (`src/components/`):
+   - `quiz-creation-form.tsx`: Note input and settings form
+   - `quiz-display.tsx`: Quiz preview and practice modes
+   - `ui/`: shadcn/ui component library
+
+4. **Business Logic** (`src/lib/`):
+   - `models/`: TypeScript classes (Note, Section, QuizQuestion, SectioningStrategy)
+   - `services/`: OpenAI client and Quizmaster orchestration
+   - `services/prompts.ts`: LLM prompt templates
+
+**Key Features:**
+- Practice mode with randomized answers and instant feedback
+- Preview mode showing all correct answers
+- Quiz history with localStorage persistence
+- Real-time statistics (character, word, line count)
+- Progress tracking during generation
+- Export to JSON
+- Shuffle questions
+- Edit quiz names
+
+### Legacy Flask Version (root directory)
+
+**Three-Layer Architecture:**
 
 1. **API Layer** (`api/`): Flask-based REST API
    - `blueprints/quiz.py`: Handles quiz creation endpoint
@@ -47,7 +88,41 @@ The core workflow in [quizmaster.py](core/services/quizmaster.py):
 
 ## Development Commands
 
-### Running the Application
+### Next.js Version (PRIMARY)
+
+**Running the Application:**
+
+```bash
+cd autoquiz-next
+
+# Install dependencies (first time only)
+npm install
+
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Start production server
+npm start
+
+# Run linter
+npm run lint
+```
+
+Default server runs at `http://localhost:3000`
+
+**Environment Setup:**
+
+Create `autoquiz-next/.env.local`:
+```env
+OPENAI_API_KEY=your_openai_api_key_here
+```
+
+### Legacy Flask Version
+
+**Running the Application:**
 
 ```bash
 # Start Flask development server
@@ -195,6 +270,44 @@ Example: `[feat] add difficulty setting for quiz generation`
 
 ## File Structure Navigation
 
+### Next.js Version (autoquiz-next/)
+
+```
+autoquiz-next/
+├── src/
+│   ├── app/                       # Next.js App Router
+│   │   ├── api/quiz/create/      # Quiz generation API endpoint
+│   │   │   └── route.ts
+│   │   ├── history/              # Quiz history page
+│   │   │   └── page.tsx
+│   │   ├── layout.tsx            # Root layout with Toaster
+│   │   ├── page.tsx              # Home page (quiz creation)
+│   │   └── globals.css           # Global styles
+│   ├── components/               # React components
+│   │   ├── ui/                   # shadcn/ui components
+│   │   ├── quiz-creation-form.tsx
+│   │   └── quiz-display.tsx
+│   └── lib/                      # Business logic and utilities
+│       ├── models/               # TypeScript models
+│       │   ├── note.ts
+│       │   ├── section.ts
+│       │   ├── quiz-question.ts
+│       │   └── sectioning-strategy.ts
+│       ├── services/             # Services
+│       │   ├── openai-client.ts
+│       │   ├── quizmaster.ts
+│       │   └── prompts.ts
+│       └── utils.ts
+├── public/                       # Static assets
+├── .env.local                    # Environment variables (not in git)
+├── .env.example                  # Environment template
+├── package.json
+├── tsconfig.json
+└── README.md
+```
+
+### Legacy Flask Version (root)
+
 ```
 autoquiz/
 ├── api/                    # Flask API layer
@@ -217,27 +330,65 @@ autoquiz/
 
 ## Working with This Codebase
 
-### Adding New Models
+### Next.js Version (PRIMARY)
+
+**Adding New Features:**
+
+1. **New Components**: Add to `src/components/` using React and TypeScript
+   - Use shadcn/ui components for consistency
+   - Follow the pattern in `quiz-creation-form.tsx` and `quiz-display.tsx`
+
+2. **New API Endpoints**: Create in `src/app/api/` following Next.js App Router conventions
+   - Use `route.ts` files with named exports (GET, POST, etc.)
+   - Example: `src/app/api/quiz/create/route.ts`
+
+3. **New Models**: Add TypeScript classes to `src/lib/models/`
+   - Include static methods like `fromJson()` and `exportJson()`
+   - Follow the pattern in `quiz-question.ts`
+
+4. **New Sectioning Strategies**:
+   - Create new class in `src/lib/models/sectioning-strategy.ts` extending `SectioningStrategy`
+   - Implement the `process(note: Note): Section[]` method
+   - Update API endpoint to handle the new strategy
+
+5. **Modifying LLM Prompts**:
+   - Edit `src/lib/services/prompts.ts`
+   - Maintain JSON output format expected by OpenAI API
+   - Test thoroughly as prompt changes affect quiz quality
+
+**State Management:**
+- Use React Hooks (useState, useEffect) for component state
+- Use localStorage for persistence (see quiz-creation-form.tsx)
+- No global state management library currently used
+
+**Styling:**
+- Use Tailwind CSS utility classes
+- Follow shadcn/ui design system
+- Use CSS variables for theming (supports dark mode)
+
+### Legacy Flask Version
+
+**Adding New Models:**
 
 Models in `core/models/` should:
 - Use Pydantic for validation where appropriate
 - Include a `process_from_json_lists()` classmethod if parsing from API responses
 - Follow the existing pattern (see `MultipleChoiceQuestion` for reference)
 
-### Adding New Sectioning Strategies
+**Adding New Sectioning Strategies:**
 
 1. Create new class in `core/models/sectioning_strategy.py` that inherits from `SectioningStrategy`
 2. Implement the `process(note: Note) -> list[Section]` method
 3. Register the strategy name in the API endpoint validation
 
-### Modifying LLM Prompts
+**Modifying LLM Prompts:**
 
 Prompts are Jinja2 templates in `core/services/templates/`. When modifying:
 - Maintain the structured output format expected by OpenAI API
 - Test changes thoroughly as prompt modifications significantly affect quiz quality
 - Consider the feedback about overly specific vs. conceptual questions
 
-### Frontend Development
+**Frontend Development:**
 
 The frontend uses:
 - Server-side rendering (Jinja2 templates)
