@@ -6,16 +6,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 AutoQuiz is a full-stack web application that automatically generates multiple-choice quiz questions from study notes using OpenAI's GPT-4. The application takes plain text notes from students and generates contextual quizzes by sectioning the content and using AI to create relevant questions.
 
-**IMPORTANT: This repository contains TWO versions of the application:**
-
-1. **Legacy Flask Version** (root directory) - Original Python/Flask implementation
-2. **Next.js Version** (autoquiz-next/) - Modern TypeScript/React implementation ⭐ **PRIMARY VERSION**
-
-**When working on this codebase, default to the Next.js version unless specifically asked to work on the Flask version.**
+Built with Next.js, TypeScript, React, and shadcn/ui for a modern, type-safe development experience.
 
 ## Architecture
-
-### Next.js Version (autoquiz-next/) - PRIMARY
 
 **Modern full-stack architecture using Next.js App Router:**
 
@@ -47,54 +40,31 @@ AutoQuiz is a full-stack web application that automatically generates multiple-c
 - Shuffle questions
 - Edit quiz names
 
-### Legacy Flask Version (root directory)
+## Quiz Generation Pipeline
 
-**Three-Layer Architecture:**
-
-1. **API Layer** (`api/`): Flask-based REST API
-   - `blueprints/quiz.py`: Handles quiz creation endpoint
-   - `blueprints/frontend.py`: Serves frontend routes
-
-2. **Core/Business Logic** (`core/`): Domain models and services
-   - `models/`: Data structures (Note, Section, QuizQuestion, SectioningStrategy)
-   - `services/quizmaster.py`: Orchestrates the quiz generation pipeline
-   - `services/openai_client.py`: Handles LLM API interactions
-   - `services/templates/`: Jinja2 templates for LLM prompts
-
-3. **Frontend** (`frontend/`): Server-rendered HTML with vanilla JavaScript
-   - `templates/`: Jinja2 HTML templates (pages and components)
-   - `static/scripts/`: Client-side JavaScript (ES6 modules)
-   - `static/styles/`: CSS files
-
-### Quiz Generation Pipeline
-
-The core workflow in [quizmaster.py](core/services/quizmaster.py):
+The core workflow in [quizmaster.ts](src/lib/services/quizmaster.ts):
 
 1. User submits notes + settings → POST `/api/quiz/create`
 2. Note is divided into N sections using a `SectioningStrategy`
 3. For each section:
-   - Generate prompt using Jinja2 template at [core/services/templates/quiz_request_prompt.jinja](core/services/templates/quiz_request_prompt.jinja)
+   - Generate prompt using template strings in [prompts.ts](src/lib/services/prompts.ts)
    - Call OpenAI GPT-4o API with structured output format
    - Parse JSON response into `MultipleChoiceQuestion` objects
 4. Return combined quiz list as JSON
 
-**Critical:** The pipeline is currently **sequential** (not parallel). There's a TODO at [quizmaster.py:28](core/services/quizmaster.py#L28) to parallelize requests for performance.
+**Critical:** The pipeline is currently **sequential** (not parallel). Consider parallelizing requests for improved performance.
 
-### Key Design Patterns
+## Key Design Patterns
 
 - **Strategy Pattern**: `SectioningStrategy` is an abstract base class for different note-sectioning algorithms (currently only `StaticSectioningStrategy` implemented)
 - **Service Layer Pattern**: `Quizmaster` orchestrates business logic, keeping API layer thin
-- **Template Method**: LLM prompts use Jinja2 templates for maintainability
+- **Template Strings**: LLM prompts use TypeScript template literals for type safety and maintainability
 
 ## Development Commands
-
-### Next.js Version (PRIMARY)
 
 **Running the Application:**
 
 ```bash
-cd autoquiz-next
-
 # Install dependencies (first time only)
 npm install
 
@@ -115,56 +85,32 @@ Default server runs at `http://localhost:3000`
 
 **Environment Setup:**
 
-Create `autoquiz-next/.env.local`:
+Create `.env.local`:
 ```env
 OPENAI_API_KEY=your_openai_api_key_here
 ```
 
-### Legacy Flask Version
+## Testing
 
-**Running the Application:**
-
-```bash
-# Start Flask development server
-python app.py
-# OR
-python run_api.py
-```
-
-Default server runs at `http://localhost:5000`
-
-### Testing
-
-Tests use Python's `unittest` module. Test runner script: `scripts/run_tests.sh`
+Tests use Jest with ts-jest for TypeScript support.
 
 ```bash
 # Run all tests
-bash scripts/run_tests.sh
+npm test
 
-# Run all model tests
-bash scripts/run_tests.sh model
+# Run tests in watch mode
+npm run test:watch
 
-# Run all service tests
-bash scripts/run_tests.sh service
-
-# Run specific model test (e.g., test_note.py)
-bash scripts/run_tests.sh model test_note
-
-# Run specific service test (e.g., test_quizmaster.py)
-bash scripts/run_tests.sh service test_quizmaster
+# Run tests with coverage
+npm run test:coverage
 ```
 
-Test data fixtures are located in `tests/unit/data/`
+Test files are located in `src/__tests__/` directory, organized by type:
 
-### Deployment
+- `src/__tests__/models/` - Model tests
+- `src/__tests__/services/` - Service tests
 
-```bash
-# Production deployment
-bash scripts/deploy.sh
-
-# Local deployment for testing
-bash scripts/deploy_local.sh
-```
+Test data fixtures are in `src/__tests__/data/`
 
 ## API Endpoints
 
