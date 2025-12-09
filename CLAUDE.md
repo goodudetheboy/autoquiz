@@ -174,26 +174,35 @@ From [README.md](README.md) feedback section:
 ### Environment Configuration
 
 The application requires:
-- OpenAI API key (configured via `python-dotenv` and `.env` file)
-- Model: GPT-4o (configured in `Quizmaster.__init__()`, defaults to "gpt-4o")
 
-### Technology Stack
+- OpenAI API key (configured via `.env.local` file)
+- Model: GPT-4o (configured in `Quizmaster` constructor, defaults to "gpt-4o")
 
-**Backend:**
-- Flask (Python web framework)
-- OpenAI Python SDK (1.62.0) - GPT-4 integration
-- Pydantic (2.10.6) - Data validation
-- Jinja2 (3.1.5) - Template engine for prompts and HTML
-- python-dotenv (1.0.1) - Environment variable management
+## Technology Stack
 
 **Frontend:**
-- Vanilla JavaScript (ES6 modules)
-- Server-side rendering with Jinja2
-- No frontend build system (direct serving of static assets)
+
+- Next.js 16 (App Router)
+- React 19
+- TypeScript 5
+- Tailwind CSS 3
+- shadcn/ui component library
+
+**Backend:**
+
+- Next.js API Routes
+- OpenAI SDK (v4)
+- TypeScript
+
+**State Management:**
+
+- React Hooks (useState, useEffect)
+- localStorage for persistence
 
 **Testing:**
-- Python unittest (backend)
-- Jest 29.7.0 with Node.js (frontend - if applicable)
+
+- Jest 29 with ts-jest
+- TypeScript support for tests
 
 ## Commit Conventions
 
@@ -216,10 +225,8 @@ Example: `[feat] add difficulty setting for quiz generation`
 
 ## File Structure Navigation
 
-### Next.js Version (autoquiz-next/)
-
 ```
-autoquiz-next/
+autoquiz/
 ├── src/
 │   ├── app/                       # Next.js App Router
 │   │   ├── api/quiz/create/      # Quiz generation API endpoint
@@ -233,50 +240,31 @@ autoquiz-next/
 │   │   ├── ui/                   # shadcn/ui components
 │   │   ├── quiz-creation-form.tsx
 │   │   └── quiz-display.tsx
-│   └── lib/                      # Business logic and utilities
-│       ├── models/               # TypeScript models
-│       │   ├── note.ts
-│       │   ├── section.ts
-│       │   ├── quiz-question.ts
-│       │   └── sectioning-strategy.ts
-│       ├── services/             # Services
-│       │   ├── openai-client.ts
-│       │   ├── quizmaster.ts
-│       │   └── prompts.ts
-│       └── utils.ts
+│   ├── lib/                      # Business logic and utilities
+│   │   ├── models/               # TypeScript models
+│   │   │   ├── note.ts
+│   │   │   ├── section.ts
+│   │   │   ├── quiz-question.ts
+│   │   │   └── sectioning-strategy.ts
+│   │   ├── services/             # Services
+│   │   │   ├── openai-client.ts
+│   │   │   ├── quizmaster.ts
+│   │   │   └── prompts.ts
+│   │   └── utils.ts
+│   └── __tests__/                # Test files
+│       ├── models/               # Model tests
+│       ├── services/             # Service tests
+│       └── data/                 # Test fixtures
 ├── public/                       # Static assets
 ├── .env.local                    # Environment variables (not in git)
 ├── .env.example                  # Environment template
 ├── package.json
 ├── tsconfig.json
+├── jest.config.ts
 └── README.md
 ```
 
-### Legacy Flask Version (root)
-
-```
-autoquiz/
-├── api/                    # Flask API layer
-│   ├── __init__.py         # Flask app factory (create_app())
-│   └── blueprints/         # Route handlers
-├── core/                   # Business logic
-│   ├── models/             # Domain objects (Note, Section, QuizQuestion)
-│   ├── services/           # Business logic (Quizmaster, OpenAIClient)
-│   │   └── templates/      # Jinja2 LLM prompt templates
-│   └── utils/              # Helper utilities
-├── frontend/
-│   ├── templates/          # Jinja2 HTML (index.html, pages/, components/)
-│   └── static/             # Client-side assets (scripts/, styles/)
-├── tests/unit/             # Unit tests (test_models/, test_services/)
-│   └── data/               # Test fixtures
-├── scripts/                # Utility scripts (run_tests.sh, deploy.sh)
-├── app.py                  # Main entry point
-└── requirements.txt        # Python dependencies
-```
-
 ## Working with This Codebase
-
-### Next.js Version (PRIMARY)
 
 **Adding New Features:**
 
@@ -303,43 +291,13 @@ autoquiz/
    - Test thoroughly as prompt changes affect quiz quality
 
 **State Management:**
+
 - Use React Hooks (useState, useEffect) for component state
-- Use localStorage for persistence (see quiz-creation-form.tsx)
+- Use localStorage for persistence (see [quiz-creation-form.tsx](src/components/quiz-creation-form.tsx))
 - No global state management library currently used
 
 **Styling:**
+
 - Use Tailwind CSS utility classes
 - Follow shadcn/ui design system
 - Use CSS variables for theming (supports dark mode)
-
-### Legacy Flask Version
-
-**Adding New Models:**
-
-Models in `core/models/` should:
-- Use Pydantic for validation where appropriate
-- Include a `process_from_json_lists()` classmethod if parsing from API responses
-- Follow the existing pattern (see `MultipleChoiceQuestion` for reference)
-
-**Adding New Sectioning Strategies:**
-
-1. Create new class in `core/models/sectioning_strategy.py` that inherits from `SectioningStrategy`
-2. Implement the `process(note: Note) -> list[Section]` method
-3. Register the strategy name in the API endpoint validation
-
-**Modifying LLM Prompts:**
-
-Prompts are Jinja2 templates in `core/services/templates/`. When modifying:
-- Maintain the structured output format expected by OpenAI API
-- Test changes thoroughly as prompt modifications significantly affect quiz quality
-- Consider the feedback about overly specific vs. conceptual questions
-
-**Frontend Development:**
-
-The frontend uses:
-- Server-side rendering (Jinja2 templates)
-- No bundler or build process
-- ES6 module imports directly in browser
-- Component-based organization in `frontend/static/scripts/components/`
-
-Main entry point: [frontend/static/scripts/index.js](frontend/static/scripts/index.js)
