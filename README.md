@@ -1,364 +1,197 @@
-# AutoQuiz
+# AutoQuiz (Next.js)
 
-> **⚠️ THIS IS THE LEGACY FLASK VERSION**
->
-> **The active development has moved to the Next.js version.**
->
-> 👉 **[Go to Next.js Version (autoquiz-next/)](autoquiz-next/README.md)** 👈
+AI-powered quiz generation from study notes using OpenAI's GPT-4.
 
----
+## Features
 
-## About This Repository
+- 🤖 **AI-Powered**: Automatically generate multiple-choice questions from your study notes
+- 📝 **Smart Sectioning**: Divide notes into sections for better quiz coverage
+- 🎯 **Practice Mode**: Interactive quiz-taking with instant feedback
+- 📊 **Progress Tracking**: Track your performance and scores
+- 💾 **Local Storage**: Save and manage quiz history
+- 🎨 **Modern UI**: Built with Next.js, TypeScript, and shadcn/ui
+- 🌓 **Dark Mode**: Full dark mode support
 
-This repository contains **two versions** of AutoQuiz:
+## Tech Stack
 
-1. **[Next.js Version](autoquiz-next/)** ⭐ **ACTIVE** - Modern TypeScript/React implementation
-2. **Legacy Flask Version** (this directory + `legacy-flask/`) - Original Python implementation
+- **Framework**: Next.js 16 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui
+- **AI**: OpenAI API (GPT-4o)
+- **State Management**: React Hooks + localStorage
 
-**For new users:** Please use the [Next.js version](autoquiz-next/).
+## Getting Started
 
-**For developers:** All new development should focus on the [Next.js version](autoquiz-next/). See [MIGRATION.md](MIGRATION.md) for details about the migration.
+### Prerequisites
 
----
+- Node.js 20+
+- OpenAI API Key
 
-## Legacy Flask Version (Reference Only)
+### Installation
 
-This is the original Flask/Python implementation, kept for reference and backward compatibility.
-
-### Feedback & Ideas (Historical)
-- Gateway Timeout 504 for when deploying into real environment. Either make requests faster or implement another quiz creation infrastructure.
-- The generated quiz sometimes uses too specific examples in the notes. The example makes sense in the context of reading the notes, but loses meaning when standalone in the questions
-  For example:
-    ```
-    Which page is read twice in the 'Repeated Scan' operation following a reset, as per the study note data?
-
-    Page 2
-    Page 5
-    Page 4
-    Page 1
-    ```
-
-    I might want to restrict the quiz question to be more abstract and focus more on concepts. Maybe I can give another settings for the users to tweak their own questions.
-
-- It might also be a good idea to have one batch be focused on concepts and one batch be focused on examples. That way we have the best of both worlds.
-
-- One optimization technique I think up of while shitting: Instead of separating context in between generation of sections, maybe we should also add a compounding summary after each of generation. For example, let's say we generate quiz for 10 sections. Instead of prompting to generate only the questions for section 1, we can also prompt to generate a quick overview of the section, which we can also add to generating questions for section 2. The cycle repeats.
-
-- For static sectioning, I think I should also include from which note section does it come from also. Maybe not useful in the user perspective, but it might be useful for me, the devs, to see if any funny tomfoolery is going on.
-
-- Add a "Session" that is a quiz interface with more details and shit using the generated quiz. A Session would have more functionality like gradings and mistakes and all that, while Quiz is just a template for a Session.
-
-- Add the ability to fix quiz questions answer on-the-fly too
-
-- Inspired by external merge sort, what if we also offer section condensing using this technique? See CSC 463 6 Sorting and Hashing.
-
-- We can also have a difficulty setting too. Maybe for easy we can prompt "Make sure that the answer is easily noticeable" and for very difficult we can prompt "Choices must be make intentionally vague and might contain multiple components that differ in only one"
-
-- Add origin and explanation for why a choice is correct.
-
-- Add quiz combinations from different quiz set to make like a pseudo exam sort of. You can do this on frontend.
-
-## API Documentation
-
-### **Base URL**
-
-```url
-https://<specified URL here>
+1. Install dependencies:
+```bash
+npm install
 ```
 
-### **Authentication**
-
-- Describe any authentication requirements here (e.g., token-based, OAuth, etc.).
-
----
-
-### **Endpoints**
-<!-- 
-#### 1. **`GET /example/data`**
-##### Description:
-This endpoint retrieves example data based on a query parameter (`param`).
-
-##### Request:
-- **HTTP Method:** `GET`
-- **Endpoint:** `/example/data`
-- **Query Parameters:**
-  - `param` (required): A string parameter used to fetch data from the service.
-
-##### Example Request:
-```
-GET /example/data?param=value
+2. Set up environment variables:
+```bash
+cp .env.example .env.local
 ```
 
-##### Response:
-- **HTTP Status Code:**
-  - `200 OK`: When data is successfully retrieved.
-  - `400 Bad Request`: If the `param` is missing or invalid.
-- **Response Body (JSON):**
-  ```json
-  {
-    "key": "value"
-  }
-  ```
+Edit `.env.local` and add your OpenAI API key:
+```
+OPENAI_API_KEY=your_openai_api_key_here
+```
 
-##### Example Response:
+3. Run the development server:
+```bash
+npm run dev
+```
+
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+## Usage
+
+1. **Paste Notes**: Paste your study notes in the text area
+2. **Configure Settings**:
+   - Choose sectioning strategy (Static or Debug mode)
+   - Set number of sections
+   - Set quizzes per section
+3. **Generate Quiz**: Click "Generate Quiz" and wait for AI to create questions
+4. **Practice**: Use the Practice tab to test yourself with randomized answers
+5. **Review**: View correct answers in the Preview tab
+6. **Save**: Quiz is automatically saved to local storage
+
+## Project Structure
+
+```
+autoquiz-next/
+├── src/
+│   ├── app/                    # Next.js App Router
+│   │   ├── api/quiz/create/   # Quiz generation API endpoint
+│   │   ├── history/           # Quiz history page
+│   │   ├── layout.tsx         # Root layout
+│   │   └── page.tsx           # Home page
+│   ├── components/            # React components
+│   │   ├── ui/               # shadcn/ui components
+│   │   ├── quiz-creation-form.tsx
+│   │   └── quiz-display.tsx
+│   └── lib/                   # Utilities and business logic
+│       ├── models/           # TypeScript models
+│       └── services/         # Services (OpenAI, Quizmaster)
+├── public/                    # Static assets
+└── package.json
+```
+
+## API Endpoint
+
+### POST `/api/quiz/create`
+
+Generate quiz questions from study notes.
+
+**Request Body:**
 ```json
 {
-  "key": "mocked_value"
-}
-```
-
-##### Expected Behavior:
-- The API should return data corresponding to the value of the `param` query parameter.
-- If `param` is not provided or is invalid, return a `400 Bad Request` with an error message.
-
---- -->
-
-#### 2. **`POST /api/quiz/create`**
-
-##### Description
-
-This endpoint creates a list of quiz based on the given data in the request body.
-Typically, this would contain a plaintext of a study note and sectioning
-strategy.
-
-##### Request
-
-- **HTTP Method:** `POST`
-- **Endpoint:** `/api/quiz/create`
-- **Request Body (JSON):**
-
-```json
-{
-  "debug_mode": "<true> special use for debugging, will return 5 valid MCQ questions. This overrides all other settings",
-  "note_content": "<str> Content of a note the user wants to create quiz out of.",
-  "sectioning_strategy": "<'static_sectioning'>The desired sectioning strategy to split the note_content for processing. Currently supports 'static_sectioning'.",
-  "num_section": "<int> The number of sections by which the quiz will be split up.",
-  "num_quiz_per_section": "<int> The number of quiz questions per section."
-}
-```
-
-##### Example Request
-
-```json
-{
-  "note_content": "Today we are going to learn about Computer Networking <1000 words more>",
+  "note_content": "Your study notes here...",
   "sectioning_strategy": "static_sectioning",
-  "num_section": 5,
-  "num_quiz_per_section": 4
+  "num_section": 3,
+  "num_quiz_per_section": 5
 }
 ```
 
-##### Response
-
-- **HTTP Status Code:**
-  - `200 OK`: When a quiz list is succesfully created.
-  - `400 Bad Request`: If any required param field is missing in the request body.
-- **Response Body (JSON):**
-
-  ```json
-  {
-    "results": [
-      {
-        "question": "<str> The question for the quiz",
-        "choices": [
-          {
-            "description": "<str> The description of the quiz",
-            "is_correct": "<bool> Determines if this choice is correct or not" 
-          },
-          // More choices here
-        ]
-      },
-      // More question here
-    ]
-  }
-  ```
-
-##### Example Response
-
+**Response:**
 ```json
 {
   "results": [
     {
-      "question": "What is the primary function of the Internet Control Message Protocol (ICMP)?",
+      "question": "What is...?",
       "choices": [
-        {
-          "description": "To communicate issues in network transmissions to the source",
-          "is_correct": true
-        },
-        {
-          "description": "To establish secure connections between devices",
-          "is_correct": false
-        },
-        {
-          "description": "To provide high-speed data transfer",
-          "is_correct": false
-        },
-        {
-          "description": "To route data through the internet using IP addresses",
-          "is_correct": false
-        }
+        { "description": "Answer 1", "is_correct": true },
+        { "description": "Answer 2", "is_correct": false },
+        { "description": "Answer 3", "is_correct": false },
+        { "description": "Answer 4", "is_correct": false }
       ]
-    },
-    // More question here
+    }
   ]
 }
 ```
-<!-- 
-##### Expected Behavior:
-- The API should successfully create data based on the provided `param` field.
-- If the `param` field is missing in the request body, return a `400 Bad Request` response with a relevant error message.
 
----
-
-### **Error Responses**
-
-- **400 Bad Request:** Indicates a malformed request or missing required parameters.
-- **404 Not Found:** If the requested resource doesn't exist.
-- **500 Internal Server Error:** If something goes wrong on the server.
- -->
-
-## Testing
-
-### **Test Directory Structure**  
-
-TBD
-
----
-
-#### **Running Tests**  
-
-#### **Run All Tests**  
-
-To execute all unit tests:  
+## Development Commands
 
 ```bash
-bash scripts/run_tests.sh
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Start production server
+npm start
+
+# Run linter
+npm run lint
+
+# Run tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with coverage
+npm run test:coverage
+
+# Run only model tests
+npm run test:models
+
+# Run only service tests
+npm run test:services
 ```
 
-#### **Run All Model Tests**  
+## Environment Variables
 
-To run all tests inside `tests/unit/test_models/`:  
+- `OPENAI_API_KEY`: Your OpenAI API key (required)
 
-```bash
-bash scripts/run_tests.sh model
-```
+## Known Limitations
 
-#### **Run All Service Tests**  
+1. **Sequential Processing**: Quiz generation is currently sequential. Parallelization would improve performance.
+2. **No Persistence**: Quizzes are stored in browser localStorage only
+3. **Single Strategy**: Only static sectioning is currently implemented
 
-To run all tests inside `tests/unit/test_services/`:  
+## Future Enhancements
 
-```bash
-bash scripts/run_tests.sh service
-```
+- Parallel API requests for faster generation
+- Database persistence
+- User authentication
+- Difficulty settings
+- Question explanations
+- Export to PDF/Markdown
+- Multiple sectioning strategies
+- Session management with grading
 
-#### **Run a Specific Model Test**  
+## Migration from Flask
 
-To run a specific model test, such as `test_user.py`:  
+This is a complete rewrite of the original Flask application. Key improvements:
 
-```bash
-bash scripts/run_tests.sh model test_user
-```
+- Modern React-based UI with shadcn/ui
+- Better type safety with TypeScript
+- Improved user experience with real-time feedback
+- Client-side state management
+- Responsive design
+- Practice mode with instant feedback
 
-This runs `tests/unit/test_models/test_user.py`.
+## License
 
-#### **Run a Specific Service Test**  
+MIT
 
-To run a specific service test, such as `test_user_service.py`:  
+## Contributing
 
-```bash
-bash scripts/run_tests.sh service test_user_service
-```
+Pull requests are welcome! Please follow the existing code style and commit conventions:
 
-This runs `tests/unit/test_services/test_user_service.py`.
-
-#### **Run All Model Tests Explicitly**  
-
-To run all model-related tests:  
-
-```bash
-bash scripts/run_tests.sh model all
-```
-
-#### **Run All Service Tests Explicitly**  
-
-To run all service-related tests:  
-
-```bash
-bash scripts/run_tests.sh service all
-```
-
----
-
-## **Script Behavior**  
-
-- **No parameters**: Runs all tests using `unittest discover -s tests/unit`.  
-- **First parameter: "model"**: Runs all tests in `tests/unit/test_models/`.  
-- **First parameter: "service"**: Runs all tests in `tests/unit/test_services/`.  
-- **First parameter + second parameter**: Runs a specific test file.  
-- **First parameter + "all"**: Runs all tests in the specified category.  
-
----
-
-## **Additional Notes**  
-
-- The script automatically stops on the first failed test (`set -e` in Bash).  
-- Tests are executed using Python’s built-in `unittest` module.  
-- The script is located at `scripts/run_tests.sh`.  
-
----
-
-## **Examples**  
-
-| Command | Description |
-|---------|-------------|
-| `bash scripts/run_tests.sh` | Runs all tests. |
-| `bash scripts/run_tests.sh model` | Runs all model-related tests. |
-| `bash scripts/run_tests.sh service` | Runs all service-related tests. |
-| `bash scripts/run_tests.sh model test_user` | Runs `tests/unit/test_models/test_user.py`. |
-| `bash scripts/run_tests.sh service test_user_service` | Runs `tests/unit/test_services/test_user_service.py`. |
-| `bash scripts/run_tests.sh model all` | Runs all tests in `tests/unit/test_models/`. |
-| `bash scripts/run_tests.sh service all` | Runs all tests in `tests/unit/test_services/`. |
-
-This document serves as a reference for executing tests in a structured and efficient manner.
-
-## Contribution Guidelines
-
-### **Commit Message Tags**
-
-To keep our commit history clean and organized, we use the following tags to categorize our commit messages:
-
-- **`[feat]`**: A new feature or enhancement.
-  - Example: `[feat] add user login functionality`
-  
-- **`[fix]`**: A bug fix.
-  - Example: `[fix] correct login form validation`
-  
-- **`[docs]`**: Documentation changes or updates.
-  - Example: `[docs] update README with setup instructions`
-  
-- **`[style]`**: Code style changes (e.g., formatting, white space, etc.).
-  - Example: `[style] reformat code to conform to PEP 8`
-  
-- **`[refactor]`**: Code refactoring that doesn't change functionality.
-  - Example: `[refactor] improve user authentication service`
-  
-- **`[test]`**: Adding or updating tests.
-  - Example: `[test] add unit tests for User model`
-  
-- **`[chore]`**: Maintenance tasks (e.g., dependencies, build configuration).
-  - Example: `[chore] update dependencies`
-  
-- **`[perf]`**: Performance improvements.
-  - Example: `[perf] optimize image processing algorithm`
-  
-- **`[ci]`**: Continuous integration related changes.
-  - Example: `[ci] update GitHub Actions workflow`
-  
-- **`[build]`**: Build system or external tool changes.
-  - Example: `[build] update Dockerfile to include new base image`
-  
-- **`[release]`**: A release version tag.
-  - Example: `[release] v1.0.0`
-  
-- **`[WIP]`**: Work in progress; unfinished commit.
-  - Example: `[WIP] start implementing profile page`
+- `[feat]` - New features
+- `[fix]` - Bug fixes
+- `[docs]` - Documentation
+- `[refactor]` - Code refactoring
+- `[style]` - Formatting
+- `[test]` - Tests
