@@ -132,6 +132,21 @@ npm start
 
 # Run linter
 npm run lint
+
+# Run tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with coverage
+npm run test:coverage
+
+# Run only model tests
+npm run test:models
+
+# Run only service tests
+npm run test:services
 ```
 
 ## Environment Variables

@@ -144,9 +144,8 @@ Both versions share these limitations:
 
 Next.js-specific limitations:
 
-1. **No Tests**: Test suite not yet implemented
-2. **No SSR for Quiz Data**: Quiz data is client-side only
-3. **No Error Boundaries**: Error handling could be more robust
+1. **No SSR for Quiz Data**: Quiz data is client-side only
+2. **No Error Boundaries**: Error handling could be more robust
 
 ## Future Enhancements
 
@@ -159,7 +158,7 @@ Potential improvements for the Next.js version:
 - [ ] Include answer explanations
 - [ ] Export to PDF/Markdown
 - [ ] Add grading and session management
-- [ ] Implement comprehensive test suite
+- [x] Implement comprehensive test suite (Jest + TypeScript)
 - [ ] Add error boundaries and better error handling
 - [ ] Implement server-side quiz persistence
 - [ ] Add analytics and usage tracking
