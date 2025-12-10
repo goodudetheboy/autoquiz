@@ -299,7 +299,7 @@ export function QuizDisplay({ results, isLoading }: QuizDisplayProps) {
           </TabsList>
 
           <TabsContent value="preview" className="mt-4">
-            <ScrollArea className="h-[600px] pr-4">
+            <ScrollArea className="h-[600px] md:h-[calc(100vh-30rem)] lg:h-[calc(100vh-23rem)] pr-4">
               <div className="space-y-6">
                 {displayedQuestions.map((q, qIndex) => (
                   <div key={qIndex} className="space-y-3">

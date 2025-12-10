@@ -176,7 +176,7 @@ export function QuizCreationForm({
               placeholder="Paste your study notes here..."
               value={noteContent}
               onChange={(e) => setNoteContent(e.target.value)}
-              className="min-h-[200px] resize-y"
+              className="h-[200px] resize-y"
               disabled={isLoading}
             />
           </div>
