@@ -7,8 +7,8 @@ import { generateQuizRequestPrompt } from "./prompts";
 export class Quizmaster {
   private openaiClient: OpenAIClient;
 
-  constructor(model: string = "gpt-4o") {
-    this.openaiClient = new OpenAIClient(model);
+  constructor(model: string = "gpt-5-mini-2025-08-07", apiKey?: string) {
+    this.openaiClient = new OpenAIClient(model, apiKey);
   }
 
   async createQuizList(

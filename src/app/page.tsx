@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { QuizCreationForm } from "@/components/quiz-creation-form";
 import { QuizDisplay } from "@/components/quiz-display";
 import { Button } from "@/components/ui/button";
-import { History } from "lucide-react";
+import { History, Settings } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -35,12 +35,20 @@ export default function Home() {
               AI-Powered Quiz Generation
             </p>
           </div>
-          <Link href="/history">
-            <Button variant="outline" size="sm">
-              <History className="mr-2 h-4 w-4" />
-              History
-            </Button>
-          </Link>
+          <div className="flex gap-2">
+            <Link href="/history">
+              <Button variant="outline" size="sm">
+                <History className="mr-2 h-4 w-4" />
+                History
+              </Button>
+            </Link>
+            <Link href="/settings">
+              <Button variant="outline" size="sm">
+                <Settings className="mr-2 h-4 w-4" />
+                Settings
+              </Button>
+            </Link>
+          </div>
         </div>
       </header>
 

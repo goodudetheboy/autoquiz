@@ -46,6 +46,15 @@ export function QuizCreationForm({
       return;
     }
 
+    // Check if API key is configured (only for non-debug mode)
+    if (strategy !== "debug") {
+      const apiKey = localStorage.getItem("openai_api_key");
+      if (!apiKey) {
+        toast.error("Please configure your OpenAI API key in Settings");
+        return;
+      }
+    }
+
     setIsLoading(true);
     setProgress(0);
 
@@ -76,6 +85,10 @@ export function QuizCreationForm({
     }, 1000);
 
     try {
+      // Get API key and model from localStorage
+      const apiKey = localStorage.getItem("openai_api_key") || "";
+      const model = localStorage.getItem("openai_model") || "gpt-5-mini-2025-08-07";
+
       const requestBody =
         strategy === "debug"
           ? { debug_mode: true }
@@ -84,6 +97,8 @@ export function QuizCreationForm({
               sectioning_strategy: "static_sectioning",
               num_section: numSections,
               num_quiz_per_section: numQuizPerSection,
+              api_key: apiKey,
+              model: model,
             };
 
       const response = await fetch("/api/quiz/create", {

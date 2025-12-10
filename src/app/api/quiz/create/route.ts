@@ -74,12 +74,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Validate API key is provided
+    if (!jsonData.api_key) {
+      return NextResponse.json(
+        { error: "OpenAI API key is required. Please configure it in Settings." },
+        { status: 400 }
+      );
+    }
+
     const noteContent = jsonData.note_content as string;
     const sectioningStrategy = jsonData.sectioning_strategy as string;
     const numSection = parseInt(jsonData.num_section);
     const numQuizPerSection = parseInt(jsonData.num_quiz_per_section);
+    const apiKey = jsonData.api_key as string;
+    const model = jsonData.model || "gpt-5-mini-2025-08-07";
 
-    const quizmaster = new Quizmaster("gpt-4o");
+    const quizmaster = new Quizmaster(model, apiKey);
     const note = new Note(noteContent);
 
     let strategy;

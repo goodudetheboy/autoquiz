@@ -15,10 +15,12 @@ Built with Next.js, TypeScript, React, and shadcn/ui for a modern, type-safe dev
 1. **Frontend** (`src/app/`): React components with Next.js App Router
    - `page.tsx`: Main quiz creation page
    - `history/page.tsx`: Quiz history management
+   - `settings/page.tsx`: Settings page for API key and model configuration
    - `layout.tsx`: Root layout with Toaster
 
 2. **API Layer** (`src/app/api/`): Next.js API routes
    - `quiz/create/route.ts`: POST endpoint for quiz generation
+   - `quiz/test/route.ts`: POST endpoint for testing API key validity
 
 3. **Components** (`src/components/`):
    - `quiz-creation-form.tsx`: Note input and settings form
@@ -39,6 +41,8 @@ Built with Next.js, TypeScript, React, and shadcn/ui for a modern, type-safe dev
 - Export to JSON
 - Shuffle questions
 - Edit quiz names
+- Settings page for API key and model configuration
+- API key testing functionality
 
 ## Quiz Generation Pipeline
 
@@ -85,10 +89,18 @@ Default server runs at `http://localhost:3000`
 
 **Environment Setup:**
 
-Create `.env.local`:
-```env
-OPENAI_API_KEY=your_openai_api_key_here
-```
+No environment variables are required. The application uses browser-based settings stored in localStorage.
+
+1. Run the development server: `npm run dev`
+2. Navigate to Settings page (click Settings button in header)
+3. Enter your OpenAI API key (get one from [OpenAI Dashboard](https://platform.openai.com/api-keys))
+4. Select your preferred model:
+   - `gpt-5-mini-2025-08-07` (Default, faster and cheaper)
+   - `gpt-5-nano-2025-08-07` (Smallest and fastest)
+5. Test your API key using the "Test API Key" button
+6. Save your settings
+
+**Important:** Your API key is stored only in your browser's localStorage and is never sent to AutoQuiz servers. All requests are made directly from your browser to OpenAI's API.
 
 ## Testing
 
@@ -125,7 +137,9 @@ Creates quiz questions from study notes.
   "note_content": "...",  // Plain text study notes
   "sectioning_strategy": "static_sectioning",  // Currently only supports "static_sectioning"
   "num_section": 5,  // Number of sections to divide note into
-  "num_quiz_per_section": 4  // Questions generated per section
+  "num_quiz_per_section": 4,  // Questions generated per section
+  "api_key": "sk-...",  // OpenAI API key from localStorage
+  "model": "gpt-5-mini-2025-08-07"  // Model name (gpt-5-mini-2025-08-07 or gpt-5-nano-2025-08-07)
 }
 ```
 
@@ -171,12 +185,40 @@ From [README.md](README.md) feedback section:
    - Session management (grading, mistake tracking)
    - On-the-fly answer corrections
 
+### POST `/api/quiz/test`
+
+Tests OpenAI API key validity.
+
+**Request Body:**
+
+```json
+{
+  "api_key": "sk-...",  // OpenAI API key to test
+  "model": "gpt-5-mini-2025-08-07"  // Model name to test
+}
+```
+
+**Response (200 OK):**
+
+```json
+{
+  "success": true
+}
+```
+
+**Error Responses:**
+
+- 400: Invalid API key or model name
+- 401: Unauthorized (invalid API key)
+- 500: Server error
+
 ### Environment Configuration
 
-The application requires:
+The application uses browser-based configuration stored in localStorage:
 
-- OpenAI API key (configured via `.env.local` file)
-- Model: GPT-4o (configured in `Quizmaster` constructor, defaults to "gpt-4o")
+- **OpenAI API key**: Configured via Settings page, stored in `localStorage.openai_api_key`
+- **Model**: User-selected model (gpt-5-mini-2025-08-07 or gpt-5-nano-2025-08-07), stored in `localStorage.openai_model`
+- **Default model**: `gpt-5-mini-2025-08-07` (recommended for most use cases; gpt-5-nano-2025-08-07 is faster/cheaper but lower quality)
 
 ## Technology Stack
 
@@ -229,9 +271,14 @@ Example: `[feat] add difficulty setting for quiz generation`
 autoquiz/
 ├── src/
 │   ├── app/                       # Next.js App Router
-│   │   ├── api/quiz/create/      # Quiz generation API endpoint
-│   │   │   └── route.ts
+│   │   ├── api/quiz/
+│   │   │   ├── create/           # Quiz generation API endpoint
+│   │   │   │   └── route.ts
+│   │   │   └── test/             # API key test endpoint
+│   │   │       └── route.ts
 │   │   ├── history/              # Quiz history page
+│   │   │   └── page.tsx
+│   │   ├── settings/             # Settings page
 │   │   │   └── page.tsx
 │   │   ├── layout.tsx            # Root layout with Toaster
 │   │   ├── page.tsx              # Home page (quiz creation)
@@ -256,8 +303,6 @@ autoquiz/
 │       ├── services/             # Service tests
 │       └── data/                 # Test fixtures
 ├── public/                       # Static assets
-├── .env.local                    # Environment variables (not in git)
-├── .env.example                  # Environment template
 ├── package.json
 ├── tsconfig.json
 ├── jest.config.ts

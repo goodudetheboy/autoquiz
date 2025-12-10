@@ -1,21 +1,21 @@
 import OpenAI from "openai";
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 /**
  * Class to provide interface with various interactions with LLM
  */
 export class OpenAIClient {
   private model: string;
+  private client: OpenAI;
 
-  constructor(model: string = "gpt-4o") {
+  constructor(model: string = "gpt-5-mini-2025-08-07", apiKey?: string) {
     this.model = model;
+    this.client = new OpenAI({
+      apiKey: apiKey || process.env.OPENAI_API_KEY,
+    });
   }
 
   async generateText(prompt: string): Promise<string> {
-    const chatCompletion = await client.chat.completions.create({
+    const chatCompletion = await this.client.chat.completions.create({
       messages: [
         {
           role: "user",
@@ -29,7 +29,7 @@ export class OpenAIClient {
   }
 
   async generateJson(prompt: string): Promise<string> {
-    const chatCompletion = await client.chat.completions.create({
+    const chatCompletion = await this.client.chat.completions.create({
       messages: [
         {
           role: "user",
