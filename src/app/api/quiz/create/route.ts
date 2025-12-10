@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Note } from "@/lib/models/note";
-import { StaticSectioningStrategy } from "@/lib/models/sectioning-strategy";
+import { BasicSectioningStrategy, StaticSectioningStrategy } from "@/lib/models/sectioning-strategy";
 import { Quizmaster } from "@/lib/services/quizmaster";
 
 export async function POST(request: NextRequest) {
@@ -93,7 +93,9 @@ export async function POST(request: NextRequest) {
     const note = new Note(noteContent);
 
     let strategy;
-    if (sectioningStrategy === "static_sectioning") {
+    if (sectioningStrategy === "basic_sectioning") {
+      strategy = new BasicSectioningStrategy();
+    } else if (sectioningStrategy === "static_sectioning") {
       strategy = new StaticSectioningStrategy(numSection);
     } else {
       return NextResponse.json(

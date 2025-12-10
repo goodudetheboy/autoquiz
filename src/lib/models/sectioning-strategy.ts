@@ -12,6 +12,19 @@ export abstract class SectioningStrategy {
 }
 
 /**
+ * Class for basic sectioning strategy
+ * Sends the entire note to the LLM in one go
+ */
+export class BasicSectioningStrategy extends SectioningStrategy {
+  /**
+   * For basic sectioning, return the entire note as a single section
+   */
+  process(note: Note): Section[] {
+    return [new Section(note.content)];
+  }
+}
+
+/**
  * Class for static sectioning strategy
  */
 export class StaticSectioningStrategy extends SectioningStrategy {

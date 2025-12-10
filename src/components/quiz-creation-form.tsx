@@ -29,9 +29,10 @@ export function QuizCreationForm({
   setIsLoading,
 }: QuizCreationFormProps) {
   const [noteContent, setNoteContent] = useState("");
-  const [strategy, setStrategy] = useState("static");
+  const [strategy, setStrategy] = useState("basic");
   const [numSections, setNumSections] = useState(3);
   const [numQuizPerSection, setNumQuizPerSection] = useState(5);
+  const [totalQuestions, setTotalQuestions] = useState(10);
   const [progress, setProgress] = useState(0);
   const [progressText, setProgressText] = useState("");
 
@@ -92,6 +93,15 @@ export function QuizCreationForm({
       const requestBody =
         strategy === "debug"
           ? { debug_mode: true }
+          : strategy === "basic"
+          ? {
+              note_content: noteContent,
+              sectioning_strategy: "basic_sectioning",
+              num_section: 1,
+              num_quiz_per_section: totalQuestions,
+              api_key: apiKey,
+              model: model,
+            }
           : {
               note_content: noteContent,
               sectioning_strategy: "static_sectioning",
@@ -202,11 +212,37 @@ export function QuizCreationForm({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="basic">Basic (Recommended)</SelectItem>
                 <SelectItem value="static">Static Sectioning</SelectItem>
                 <SelectItem value="debug">DEBUG MODE</SelectItem>
               </SelectContent>
             </Select>
+            <p className="text-xs text-muted-foreground">
+              {strategy === "basic" && "Sends entire note to LLM in one request. Best for most use cases."}
+              {strategy === "static" && "Splits note into sections and generates questions per section."}
+              {strategy === "debug" && "Returns sample questions for testing."}
+            </p>
           </div>
+
+          {strategy === "basic" && (
+            <div className="space-y-2">
+              <Label htmlFor="totalQuestions">
+                Total Questions
+                <span className="text-xs text-muted-foreground ml-2">
+                  (1-30)
+                </span>
+              </Label>
+              <Input
+                id="totalQuestions"
+                type="number"
+                min={1}
+                max={30}
+                value={totalQuestions}
+                onChange={(e) => setTotalQuestions(parseInt(e.target.value) || 1)}
+                disabled={isLoading}
+              />
+            </div>
+          )}
 
           {strategy === "static" && (
             <>

@@ -49,18 +49,22 @@ Built with Next.js, TypeScript, React, and shadcn/ui for a modern, type-safe dev
 The core workflow in [quizmaster.ts](src/lib/services/quizmaster.ts):
 
 1. User submits notes + settings → POST `/api/quiz/create`
-2. Note is divided into N sections using a `SectioningStrategy`
+2. Note is divided into N sections using a `SectioningStrategy`:
+   - **Basic Strategy** (default): Single section containing entire note
+   - **Static Strategy**: N sections divided evenly by line count
 3. For each section:
    - Generate prompt using template strings in [prompts.ts](src/lib/services/prompts.ts)
-   - Call OpenAI GPT-4o API with structured output format
+   - Call OpenAI GPT-5 API with structured output format
    - Parse JSON response into `MultipleChoiceQuestion` objects
 4. Return combined quiz list as JSON
 
-**Critical:** The pipeline is currently **sequential** (not parallel). Consider parallelizing requests for improved performance.
+**Note:** The pipeline processes sections **sequentially**. For Basic strategy (single section), this means one API call. For Static strategy with multiple sections, consider parallelizing requests for improved performance.
 
 ## Key Design Patterns
 
-- **Strategy Pattern**: `SectioningStrategy` is an abstract base class for different note-sectioning algorithms (currently only `StaticSectioningStrategy` implemented)
+- **Strategy Pattern**: `SectioningStrategy` is an abstract base class for different note-sectioning algorithms:
+  - `BasicSectioningStrategy`: Sends entire note to LLM in one request (recommended)
+  - `StaticSectioningStrategy`: Splits note into N sections by line count
 - **Service Layer Pattern**: `Quizmaster` orchestrates business logic, keeping API layer thin
 - **Template Strings**: LLM prompts use TypeScript template literals for type safety and maintainability
 
@@ -135,13 +139,18 @@ Creates quiz questions from study notes.
 {
   "debug_mode": false,  // If true, returns 5 mock questions (overrides all settings)
   "note_content": "...",  // Plain text study notes
-  "sectioning_strategy": "static_sectioning",  // Currently only supports "static_sectioning"
-  "num_section": 5,  // Number of sections to divide note into
-  "num_quiz_per_section": 4,  // Questions generated per section
+  "sectioning_strategy": "basic_sectioning",  // "basic_sectioning" (default) or "static_sectioning"
+  "num_section": 1,  // Number of sections (1 for basic, N for static)
+  "num_quiz_per_section": 10,  // Questions generated per section
   "api_key": "sk-...",  // OpenAI API key from localStorage
   "model": "gpt-5-mini-2025-08-07"  // Model name (gpt-5-mini-2025-08-07 or gpt-5-nano-2025-08-07)
 }
 ```
+
+**Sectioning Strategies:**
+
+- `basic_sectioning` (Recommended): Sends entire note to LLM in one request. Set `num_section: 1` and `num_quiz_per_section` to total desired questions.
+- `static_sectioning`: Splits note into `num_section` sections, generates `num_quiz_per_section` questions per section.
 
 **Response (200 OK):**
 ```json
@@ -329,6 +338,10 @@ autoquiz/
    - Create new class in `src/lib/models/sectioning-strategy.ts` extending `SectioningStrategy`
    - Implement the `process(note: Note): Section[]` method
    - Update API endpoint to handle the new strategy
+   - Add option to quiz creation form UI
+   - Current strategies:
+     - `BasicSectioningStrategy`: Returns entire note as single section
+     - `StaticSectioningStrategy`: Divides note into N equal sections by line count
 
 5. **Modifying LLM Prompts**:
    - Edit `src/lib/services/prompts.ts`
