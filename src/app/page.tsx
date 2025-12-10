@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { QuizCreationForm } from "@/components/quiz-creation-form";
 import { QuizDisplay } from "@/components/quiz-display";
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,18 @@ import Link from "next/link";
 export default function Home() {
   const [quizResults, setQuizResults] = useState<any[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Load quiz from localStorage if there's a lastOpenedQuizId
+  useEffect(() => {
+    const lastOpenedQuizId = localStorage.getItem("lastOpenedQuizId");
+    if (lastOpenedQuizId) {
+      const quizzes = JSON.parse(localStorage.getItem("quizzes") || "[]");
+      const quiz = quizzes.find((q: any) => q.id === lastOpenedQuizId);
+      if (quiz && quiz.results) {
+        setQuizResults(quiz.results);
+      }
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
