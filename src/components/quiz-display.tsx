@@ -43,10 +43,17 @@ interface QuizDisplayProps {
   isLoading: boolean;
 }
 
+interface ShuffledChoice extends Choice {
+  originalIndex: number;
+}
+
 export function QuizDisplay({ results, isLoading }: QuizDisplayProps) {
   const [quizName, setQuizName] = useState("Untitled Quiz");
   const [quizId, setQuizId] = useState<string | null>(null);
   const [displayedQuestions, setDisplayedQuestions] = useState<Question[]>([]);
+  const [shuffledChoices, setShuffledChoices] = useState<{
+    [key: number]: ShuffledChoice[];
+  }>({});
   const [selectedAnswers, setSelectedAnswers] = useState<{
     [key: number]: number;
   }>({});
@@ -61,6 +68,15 @@ export function QuizDisplay({ results, isLoading }: QuizDisplayProps) {
       setDisplayedQuestions(shuffleArray([...results]));
       setSelectedAnswers({});
       setRevealedAnswers({});
+
+      // Pre-shuffle choices for practice mode
+      const shuffled: { [key: number]: ShuffledChoice[] } = {};
+      results.forEach((q, qIndex) => {
+        shuffled[qIndex] = shuffleArray(
+          q.choices.map((c, i) => ({ ...c, originalIndex: i }))
+        );
+      });
+      setShuffledChoices(shuffled);
 
       // Get quiz ID from localStorage
       const id = localStorage.getItem("lastOpenedQuizId");
@@ -88,6 +104,16 @@ export function QuizDisplay({ results, isLoading }: QuizDisplayProps) {
     setDisplayedQuestions(shuffleArray([...displayedQuestions]));
     setSelectedAnswers({});
     setRevealedAnswers({});
+
+    // Re-shuffle choices for practice mode
+    const shuffled: { [key: number]: ShuffledChoice[] } = {};
+    displayedQuestions.forEach((q, qIndex) => {
+      shuffled[qIndex] = shuffleArray(
+        q.choices.map((c, i) => ({ ...c, originalIndex: i }))
+      );
+    });
+    setShuffledChoices(shuffled);
+
     toast.success("Quiz shuffled!");
   };
 
@@ -315,9 +341,7 @@ export function QuizDisplay({ results, isLoading }: QuizDisplayProps) {
                       {qIndex + 1}. {q.question}
                     </div>
                     <div className="space-y-2 pl-4">
-                      {shuffleArray(
-                        q.choices.map((c, i) => ({ ...c, originalIndex: i }))
-                      ).map((choice, displayIndex) => {
+                      {(shuffledChoices[qIndex] || []).map((choice, displayIndex) => {
                         const isSelected =
                           selectedAnswers[qIndex] === choice.originalIndex;
                         const isRevealed = revealedAnswers[qIndex];
